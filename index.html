@@ -670,6 +670,8 @@ async function submitBlessing() {
     document.getElementById('bl-rec-txt').textContent = '录音祝福';
     showToast('本喵收到了！已经为你挂上星光墙喵～');
     playMeow();
+    await loadBlessings();
+    document.getElementById('bl-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch(err) {
     console.error(err);
     showToast('提交失败：' + (err.message || '请检查网络'));
