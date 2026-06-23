@@ -594,21 +594,34 @@ function openLightbox(url) {
 // ════════════════════════════════════════════════════════════════
 // BLESSING WALL
 // ════════════════════════════════════════════════════════════════
-let blRecorder = null, blChunks = [], blBlob = null, blRecording = false, blRecTimer = null;
+let blRecorder = null, blChunks = [], blBlob = null, blBlobType = 'audio/webm', blRecording = false, blRecTimer = null;
 let blImgFile = null;
+let blPreviewUrl = null;
+
+function getMimeType() {
+  for (const t of ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4']) {
+    if (MediaRecorder.isTypeSupported(t)) return t;
+  }
+  return '';
+}
 
 function toggleBlessingRecording() {
   if (!blRecording) {
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       blChunks = [];
-      blRecorder = new MediaRecorder(stream);
-      blRecorder.ondataavailable = e => blChunks.push(e.data);
+      blBlobType = getMimeType();
+      blRecorder = new MediaRecorder(stream, blBlobType ? { mimeType: blBlobType } : {});
+      blRecorder.ondataavailable = e => { if (e.data.size > 0) blChunks.push(e.data); };
       blRecorder.onstop = () => {
-        blBlob = new Blob(blChunks, { type: 'audio/webm' });
+        const type = blBlobType || 'audio/webm';
+        blBlob = new Blob(blChunks, { type });
+        if (blPreviewUrl) URL.revokeObjectURL(blPreviewUrl);
+        blPreviewUrl = URL.createObjectURL(blBlob);
         stream.getTracks().forEach(t => t.stop());
         document.getElementById('bl-play-btn').disabled = false;
+        showToast('录音完成，可以试听了！');
       };
-      blRecorder.start();
+      blRecorder.start(200); // collect data every 200ms so chunks aren't empty
       blRecording = true;
       document.getElementById('bl-rec-txt').textContent = '停止录音';
       document.getElementById('bl-rec-dot').style.animation = 'ping 1s cubic-bezier(0,0,0.2,1) infinite';
@@ -624,7 +637,9 @@ function toggleBlessingRecording() {
 }
 
 function previewBlessingAudio() {
-  if (blBlob) new Audio(URL.createObjectURL(blBlob)).play();
+  if (!blPreviewUrl) { showToast('还没有录音喵～'); return; }
+  const a = new Audio(blPreviewUrl);
+  a.play().catch(() => showToast('浏览器不支持自动播放，请提交后在祝福墙试听'));
 }
 
 function onBlessingImageSelected(e) {
@@ -645,8 +660,9 @@ async function submitBlessing() {
     const entry = { author, text: text || null };
 
     if (blBlob) {
-      const path = `blessings/audio/${Date.now()}_${author}.webm`;
-      const { error: upErr } = await sb.storage.from('uploads').upload(path, blBlob, { contentType: 'audio/webm' });
+      const ext = blBlobType.includes('mp4') ? 'm4a' : blBlobType.includes('ogg') ? 'ogg' : 'webm';
+      const path = `blessings/audio/${Date.now()}_${author}.${ext}`;
+      const { error: upErr } = await sb.storage.from('uploads').upload(path, blBlob, { contentType: blBlobType || 'audio/webm' });
       if (upErr) throw upErr;
       const { data: { publicUrl } } = sb.storage.from('uploads').getPublicUrl(path);
       entry.audio_url = publicUrl;
