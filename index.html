@@ -119,17 +119,6 @@
 <body class="text-stone-100 min-h-screen overflow-x-hidden"
   style="background-color:#1c0309; background-image: linear-gradient(rgba(28,3,9,0.88), rgba(18,2,6,0.94)), url('assets/red-chili.png'); background-size:cover; background-attachment:fixed; background-position:center;">
 
-<!-- ══ VIDEO INTRO ══ -->
-<div id="video-intro" class="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
-  <video id="intro-video" class="w-full h-full object-contain" playsinline>
-    <source src="assets/intro.mp4" type="video/mp4">
-  </video>
-  <button id="intro-skip" onclick="skipIntro()"
-    class="absolute bottom-8 right-8 text-white/70 hover:text-white text-sm border border-white/30 px-4 py-2 rounded-full transition-colors backdrop-blur-sm">
-    跳过 ▶
-  </button>
-</div>
-
 <!-- ══════════════════════════════════════════ NAV ══ -->
 <nav class="sticky top-0 z-50 bg-wine-950/80 backdrop-blur-md border-b border-wine-800/40 px-4 py-3">
   <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 flex-wrap">
@@ -144,6 +133,7 @@
     </div>
     <div class="flex gap-1.5 flex-wrap justify-end">
       <a href="#hero"      class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">开场</a>
+      <a href="#video-section" class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">视频</a>
       <a href="#cake-section" class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">蛋糕</a>
       <a href="#blessings" class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">祝福墙</a>
       <a href="#stories"   class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">她的故事</a>
@@ -183,9 +173,22 @@
   <div id="hero-date" class="text-wine-300 text-sm mb-12 tracking-wide"></div>
 
   <!-- Scroll cue -->
-  <a href="#cake-section" class="text-gold-400/60 hover:text-gold-400 transition-colors" style="animation:bounce 2s infinite">
+  <a href="#video-section" class="text-gold-400/60 hover:text-gold-400 transition-colors" style="animation:bounce 2s infinite">
     <i data-lucide="chevrons-down" class="w-8 h-8"></i>
   </a>
+</section>
+
+<!-- ══════════════════════════════════════════ VIDEO ══ -->
+<section id="video-section">
+  <div class="section-card space-y-4">
+    <div class="flex items-center gap-2 text-gold-400">
+      <i data-lucide="play-circle" class="w-6 h-6"></i>
+      <h2 class="text-xl font-bold">雅心，生日快乐</h2>
+    </div>
+    <video class="w-full rounded-xl" controls playsinline>
+      <source src="assets/intro.mp4" type="video/mp4">
+    </video>
+  </div>
 </section>
 
 <!-- ══════════════════════════════════════════ CAKE ══ -->
@@ -528,31 +531,6 @@ const sb = createClient(
 
 <script>
 lucide.createIcons();
-
-// ── VIDEO INTRO ─────────────────────────────────────────────────
-(function() {
-  const overlay = document.getElementById('video-intro');
-  const video = document.getElementById('intro-video');
-  function skipIntro() {
-    overlay.style.transition = 'opacity 0.6s';
-    overlay.style.opacity = '0';
-    setTimeout(() => { overlay.remove(); }, 600);
-    video.pause();
-  }
-  window.skipIntro = skipIntro;
-  video.addEventListener('ended', skipIntro);
-  video.addEventListener('click', () => {
-    if (video.paused) video.play(); else video.pause();
-  });
-  video.play().catch(() => {
-    // Autoplay blocked — show a tap-to-play prompt
-    const tap = document.createElement('div');
-    tap.className = 'absolute inset-0 flex items-center justify-center text-white text-lg font-bold cursor-pointer';
-    tap.textContent = '点击播放 ▶';
-    tap.onclick = () => { video.play(); tap.remove(); };
-    overlay.appendChild(tap);
-  });
-})();
 
 // ── TOAST ───────────────────────────────────────────────────────
 let _toastTimer;
