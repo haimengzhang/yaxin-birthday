@@ -215,14 +215,14 @@
 </section>
 
 <!-- ══════════════════════════════════════════ CAKE ══ -->
-<section id="cake-section" class="flex flex-col items-center justify-center">
-  <div class="section-card flex flex-col items-center gap-4">
+<section id="cake-section">
+  <div class="section-card space-y-4">
     <div class="flex items-center gap-2 text-gold-400">
       <i data-lucide="cake" class="w-6 h-6"></i>
       <h2 class="text-xl font-bold">许个愿吧</h2>
     </div>
     <p class="text-stone-400 text-sm">点击蛋糕，吹灭蜡烛 ✨</p>
-    <div id="cake-3d" class="cursor-pointer rounded-2xl overflow-hidden" style="width:360px;height:580px;max-width:100%;"></div>
+    <div id="cake-3d" class="cursor-pointer rounded-2xl overflow-hidden w-full" style="height:420px;"></div>
   </div>
 </section>
 
@@ -1305,17 +1305,25 @@ document.querySelectorAll('.modal-wrap').forEach(m => {
 (function() {
   const container = document.getElementById('cake-3d');
   if (!container) return;
-  const W = container.clientWidth || 360, H = container.clientHeight || 580;
+  const W = container.clientWidth || 360, H = container.clientHeight || 420;
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 100);
-  camera.position.set(0, 4, 9);
-  camera.lookAt(0, 2, 0);
+  camera.position.set(0, 4, 11);
+  camera.lookAt(0, 1.5, 0);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(W, H);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
+
+  // Responsive resize
+  window.addEventListener('resize', () => {
+    const nw = container.clientWidth || 360, nh = container.clientHeight || 420;
+    camera.aspect = nw / nh;
+    camera.updateProjectionMatrix();
+    renderer.setSize(nw, nh);
+  });
 
   // Lighting
   scene.add(new THREE.AmbientLight(0xffffff, 0.5));
