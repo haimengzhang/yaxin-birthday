@@ -786,7 +786,7 @@ async function submitBlessing() {
 }
 
 function renderBlessingCard(d) {
-  const time = new Date(d.created_at).toLocaleDateString('zh-CN', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+  const time = new Date(d.created_at).toLocaleDateString('zh-CN', { month:'short', day:'numeric' });
   return `<div class="content-card space-y-2 bg-wine-950/60 border border-wine-800/35 rounded-xl p-4 relative group">
     <div class="flex items-center justify-between">
       <span class="text-gold-300 font-semibold text-sm">${d.author}</span>
