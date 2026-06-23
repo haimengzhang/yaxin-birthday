@@ -119,31 +119,23 @@
 <body class="text-stone-100 min-h-screen overflow-x-hidden"
   style="background-color:#1c0309; background-image: linear-gradient(rgba(28,3,9,0.88), rgba(18,2,6,0.94)), url('assets/red-chili.png'); background-size:cover; background-attachment:fixed; background-position:center;">
 
+<!-- ══ VIDEO INTRO ══ -->
+<div id="video-intro" class="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
+  <video id="intro-video" class="w-full h-full object-contain" playsinline>
+    <source src="assets/intro.mp4" type="video/mp4">
+  </video>
+  <button id="intro-skip" onclick="skipIntro()"
+    class="absolute bottom-8 right-8 text-white/70 hover:text-white text-sm border border-white/30 px-4 py-2 rounded-full transition-colors backdrop-blur-sm">
+    跳过 ▶
+  </button>
+</div>
+
 <!-- ══════════════════════════════════════════ NAV ══ -->
 <nav class="sticky top-0 z-50 bg-wine-950/80 backdrop-blur-md border-b border-wine-800/40 px-4 py-3">
   <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 flex-wrap">
     <div class="flex items-center gap-2.5 shrink-0 cursor-pointer" onclick="playMeow()">
-      <div class="w-9 h-9 rounded-full border-2 border-gold-400 bg-stone-300 flex items-center justify-center overflow-hidden shrink-0">
-        <svg viewBox="0 0 100 100" class="w-full h-full p-0.5">
-          <polygon points="25,40 15,15 45,30" fill="#a8a29e"/>
-          <polygon points="20,35 15,18 35,28" fill="#f43f5e"/>
-          <polygon points="75,40 85,15 55,30" fill="#a8a29e"/>
-          <polygon points="80,35 85,18 65,28" fill="#f43f5e"/>
-          <ellipse cx="50" cy="58" rx="34" ry="30" fill="#e7e5e4"/>
-          <circle cx="38" cy="50" r="5" fill="#1c1917"/>
-          <circle cx="62" cy="50" r="5" fill="#1c1917"/>
-          <circle cx="36.5" cy="48.5" r="1.5" fill="#fff"/>
-          <circle cx="60.5" cy="48.5" r="1.5" fill="#fff"/>
-          <polygon points="50,58 47,55 53,55" fill="#f43f5e"/>
-          <path d="M46,62 Q50,66 54,62" stroke="#1c1917" stroke-width="1.5" fill="none"/>
-          <line x1="24" y1="57" x2="8"  y2="54" stroke="#a8a29e" stroke-width="1.5"/>
-          <line x1="24" y1="62" x2="7"  y2="63" stroke="#a8a29e" stroke-width="1.5"/>
-          <line x1="76" y1="57" x2="92" y2="54" stroke="#a8a29e" stroke-width="1.5"/>
-          <line x1="76" y1="62" x2="93" y2="63" stroke="#a8a29e" stroke-width="1.5"/>
-          <rect x="29" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none"/>
-          <rect x="55" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none"/>
-          <line x1="45" y1="50" x2="55" y2="50" stroke="#d4af37" stroke-width="2"/>
-        </svg>
+      <div class="w-9 h-9 rounded-full border-2 border-gold-400 overflow-hidden shrink-0">
+        <img src="assets/paomian.jpg" alt="泡面" class="w-full h-full object-cover">
       </div>
       <div>
         <div class="text-gold-300 font-bold text-sm leading-tight">泡面专利事务所</div>
@@ -152,6 +144,7 @@
     </div>
     <div class="flex gap-1.5 flex-wrap justify-end">
       <a href="#hero"      class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">开场</a>
+      <a href="#cake-section" class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">蛋糕</a>
       <a href="#blessings" class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">祝福墙</a>
       <a href="#stories"   class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">她的故事</a>
       <a href="#food"      class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">招牌菜</a>
@@ -169,27 +162,8 @@
 
   <!-- Cat avatar -->
   <div class="relative mb-6 cursor-pointer select-none" onclick="playMeow()">
-    <div class="w-36 h-36 rounded-full border-4 border-gold-400 overflow-hidden bg-stone-300 shadow-2xl shadow-gold-500/25 mx-auto">
-      <svg viewBox="0 0 100 100" class="w-full h-full p-1">
-        <polygon points="25,40 15,15 45,30" fill="#a8a29e"/>
-        <polygon points="20,35 15,18 35,28" fill="#f43f5e"/>
-        <polygon points="75,40 85,15 55,30" fill="#a8a29e"/>
-        <polygon points="80,35 85,18 65,28" fill="#f43f5e"/>
-        <ellipse cx="50" cy="58" rx="34" ry="30" fill="#e7e5e4"/>
-        <circle cx="38" cy="50" r="5" fill="#1c1917"/>
-        <circle cx="62" cy="50" r="5" fill="#1c1917"/>
-        <circle cx="36.5" cy="48.5" r="1.5" fill="#fff"/>
-        <circle cx="60.5" cy="48.5" r="1.5" fill="#fff"/>
-        <polygon points="50,58 47,55 53,55" fill="#f43f5e"/>
-        <path d="M46,62 Q50,66 54,62" stroke="#1c1917" stroke-width="1.5" fill="none"/>
-        <line x1="24" y1="57" x2="8"  y2="54" stroke="#a8a29e" stroke-width="1.5"/>
-        <line x1="24" y1="62" x2="7"  y2="63" stroke="#a8a29e" stroke-width="1.5"/>
-        <line x1="76" y1="57" x2="92" y2="54" stroke="#a8a29e" stroke-width="1.5"/>
-        <line x1="76" y1="62" x2="93" y2="63" stroke="#a8a29e" stroke-width="1.5"/>
-        <rect x="29" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none"/>
-        <rect x="55" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none"/>
-        <line x1="45" y1="50" x2="55" y2="50" stroke="#d4af37" stroke-width="2"/>
-      </svg>
+    <div class="w-36 h-36 rounded-full border-4 border-gold-400 overflow-hidden shadow-2xl shadow-gold-500/25 mx-auto">
+      <img src="assets/paomian.jpg" alt="泡面" class="w-full h-full object-cover">
     </div>
     <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gold-500 text-wine-950 text-[10px] font-bold px-3 py-0.5 rounded-full whitespace-nowrap shadow">点我喵一下</span>
   </div>
@@ -555,6 +529,31 @@ const sb = createClient(
 <script>
 lucide.createIcons();
 
+// ── VIDEO INTRO ─────────────────────────────────────────────────
+(function() {
+  const overlay = document.getElementById('video-intro');
+  const video = document.getElementById('intro-video');
+  function skipIntro() {
+    overlay.style.transition = 'opacity 0.6s';
+    overlay.style.opacity = '0';
+    setTimeout(() => { overlay.remove(); }, 600);
+    video.pause();
+  }
+  window.skipIntro = skipIntro;
+  video.addEventListener('ended', skipIntro);
+  video.addEventListener('click', () => {
+    if (video.paused) video.play(); else video.pause();
+  });
+  video.play().catch(() => {
+    // Autoplay blocked — show a tap-to-play prompt
+    const tap = document.createElement('div');
+    tap.className = 'absolute inset-0 flex items-center justify-center text-white text-lg font-bold cursor-pointer';
+    tap.textContent = '点击播放 ▶';
+    tap.onclick = () => { video.play(); tap.remove(); };
+    overlay.appendChild(tap);
+  });
+})();
+
 // ── TOAST ───────────────────────────────────────────────────────
 let _toastTimer;
 function showToast(msg, ms = 3800) {
@@ -591,6 +590,21 @@ function playMeow() {
   a.oncanplaythrough = () => { _meowAudio = a; a.play().catch(meowSynth); };
   a.onerror = meowSynth;
   a.load();
+}
+
+function playSuccessChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [440, 554, 659].forEach((freq, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = freq;
+      const t = ctx.currentTime + i * 0.12;
+      g.gain.setValueAtTime(0.18, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t); o.stop(t + 0.45);
+    });
+  } catch(e) {}
 }
 
 // ── HERO COUNTDOWN ───────────────────────────────────────────────
@@ -787,7 +801,7 @@ async function submitBlessing() {
     document.getElementById('bl-play-btn').disabled = true;
     document.getElementById('bl-rec-txt').textContent = '录音祝福';
     showToast('本喵收到了！已经为你挂上星光墙喵～');
-    playMeow();
+    playSuccessChime();
     await loadBlessings();
     document.getElementById('bl-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch(err) {
@@ -857,7 +871,7 @@ async function submitStory() {
     document.getElementById('st-author').value = '';
     document.getElementById('st-story').value  = '';
     showToast('这件事本喵帮你记住了，雅心一定不知道还有人记得…');
-    playMeow();
+    playSuccessChime();
   } catch(err) {
     showToast('提交失败：' + (err.message || '请检查网络'));
   } finally {
@@ -1016,7 +1030,7 @@ async function generateCard() {
   dl.download = '雅心生日贺卡.png';
   dl.classList.remove('hidden');
   showToast('本喵盖章认证！这是全宇宙最用心的贺卡。');
-  playMeow();
+  playSuccessChime();
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -1080,7 +1094,7 @@ async function uploadPhotoBlob(blob, name) {
     const { error } = await sb.from('photos').insert({ url: publicUrl, uploader });
     if (error) throw error;
     showToast('喵！本喵已经存档，永久保存。');
-    playMeow();
+    playSuccessChime();
   } catch(err) {
     showToast('上传失败：' + (err.message || '请检查网络'));
     console.error(err);
@@ -1261,25 +1275,9 @@ function mixCocktail() {
 }
 
 function playClinkSound() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    // Different sound based on ingredients
-    const has = name => selectedIngs.includes(name);
-    let freq = 1580, type = 'sine', duration = 1.0;
-
-    if (has('辣椒')) { freq = 880; type = 'sawtooth'; duration = 0.6; }       // 热烈粗犷
-    else if (has('红酒')) { freq = 1580; type = 'sine'; duration = 1.5; }     // 优雅悠长
-    else if (has('厨艺')) { freq = 1200; type = 'triangle'; duration = 0.8; } // 温暖柔和
-    else if (has('好运')) { freq = 2000; type = 'sine'; duration = 0.5; }     // 清脆明亮
-    else if (has('踩奶')) { freq = 600; type = 'triangle'; duration = 1.2; }  // 低沉治愈
-
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = type; o.frequency.value = freq;
-    g.gain.setValueAtTime(0.2, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    o.connect(g); g.connect(ctx.destination);
-    o.start(); o.stop(ctx.currentTime + duration + 0.05);
-  } catch(e) {}
+  const a = new Audio('assets/pour.mp3');
+  a.volume = 0.6;
+  a.play().catch(() => {});
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -1298,6 +1296,24 @@ function closeBajie() {
 document.querySelectorAll('.modal-wrap').forEach(m => {
   m.addEventListener('click', e => { if (e.target === m) { closeCert(); closeBajie(); } });
 });
+
+// ════════════════════════════════════════════════════════════════
+// CAKE CHIME
+// ════════════════════════════════════════════════════════════════
+function playCakeChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [523, 659, 784, 1047].forEach((freq, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = freq;
+      const t = ctx.currentTime + i * 0.15;
+      g.gain.setValueAtTime(0.2, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t); o.stop(t + 0.55);
+    });
+  } catch(e) {}
+}
 
 // ════════════════════════════════════════════════════════════════
 // CAKE ANIMATION (Three.js)
@@ -1422,7 +1438,7 @@ document.querySelectorAll('.modal-wrap').forEach(m => {
       pointLight.intensity = 0;
       spawnParticles();
       showToast('🎂 许个愿吧，雅心！生日快乐！');
-      playMeow();
+      playCakeChime();
       setTimeout(() => {
         candlesLit = true;
         flames.forEach(f => { f.visible = true; });
