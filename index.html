@@ -241,9 +241,14 @@
         <span id="bl-img-name" class="text-xs text-stone-500 self-center truncate max-w-[120px]"></span>
       </div>
 
-      <button onclick="submitBlessing()" class="btn-gold">
-        <i data-lucide="send" class="w-4 h-4"></i> 挂上星光墙
-      </button>
+      <div class="flex gap-2">
+        <button onclick="submitBlessing()" class="btn-gold flex-1">
+          <i data-lucide="send" class="w-4 h-4"></i> 挂上星光墙
+        </button>
+        <button onclick="clearBlessingDraft()" class="btn-outline" title="清空草稿">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
     </div>
 
     <div>
@@ -640,6 +645,19 @@ function previewBlessingAudio() {
   if (!blPreviewUrl) { showToast('还没有录音喵～'); return; }
   const a = new Audio(blPreviewUrl);
   a.play().catch(() => showToast('浏览器不支持自动播放，请提交后在祝福墙试听'));
+}
+
+function clearBlessingDraft() {
+  if (blRecording) toggleBlessingRecording();
+  document.getElementById('bl-author').value = '';
+  document.getElementById('bl-text').value   = '';
+  document.getElementById('bl-img-input').value = '';
+  document.getElementById('bl-img-name').textContent = '';
+  document.getElementById('bl-play-btn').disabled = true;
+  document.getElementById('bl-rec-txt').textContent = '录音祝福';
+  document.getElementById('bl-rec-dot').style.animation = '';
+  if (blPreviewUrl) { URL.revokeObjectURL(blPreviewUrl); blPreviewUrl = null; }
+  blBlob = null; blImgFile = null; blChunks = [];
 }
 
 function onBlessingImageSelected(e) {
