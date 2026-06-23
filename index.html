@@ -1114,6 +1114,13 @@ function spinSlots() {
   const btn = document.getElementById('slot-btn');
   btn.disabled = true;
   document.getElementById('slot-msg').textContent = '';
+  // Reel 0 picks freely; reels 1 & 2 each have 50% chance of matching reel 0
+  const anchor = REEL_ICONS[Math.floor(Math.random() * REEL_ICONS.length)];
+  const finalResults = [
+    anchor,
+    Math.random() < 0.5 ? anchor : REEL_ICONS[Math.floor(Math.random() * REEL_ICONS.length)],
+    Math.random() < 0.5 ? anchor : REEL_ICONS[Math.floor(Math.random() * REEL_ICONS.length)],
+  ];
   const results = new Array(3);
   let done = 0;
   [0,1,2].forEach((i) => {
@@ -1124,7 +1131,7 @@ function spinSlots() {
       reel.textContent = REEL_ICONS[Math.floor(Math.random() * REEL_ICONS.length)];
       if (++t >= ticks) {
         clearInterval(iv);
-        results[i] = REEL_ICONS[Math.floor(Math.random() * REEL_ICONS.length)];
+        results[i] = finalResults[i];
         reel.textContent = results[i];
         if (++done === 3) onSlotDone(results);
       }
