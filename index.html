@@ -1,696 +1,1139 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>泡面专利事务所 & 雅心的小酒馆</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind Config for Theme Colors -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        wine: {
-                            50: '#fdf2f4',
-                            100: '#fbe5e9',
-                            200: '#f7ced6',
-                            300: '#f0a8b7',
-                            400: '#e57790',
-                            500: '#d54b6d',
-                            600: '#c03153',
-                            700: '#a1233f',
-                            800: '#862037',
-                            900: '#4a0f1c', 
-                            950: '#2d060f',
-                        },
-                        gold: {
-                            50: '#fbf9f1',
-                            100: '#f5f0db',
-                            200: '#ebe0b7',
-                            300: '#dcc686',
-                            400: '#cca95a',
-                            500: '#bd8e3a',
-                            600: '#a3722e',
-                            700: '#805425',
-                            800: '#644121',
-                            900: '#4b2f1a',
-                        }
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>泡面专利事务所 · 生日快乐雅心</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            wine: { 50:'#fdf2f4',100:'#fbe5e9',200:'#f7ced6',300:'#f0a8b7',400:'#e57790',500:'#d54b6d',600:'#c03153',700:'#a1233f',800:'#862037',900:'#4a0f1c',950:'#2d060f' },
+            gold: { 50:'#fbf9f1',100:'#f5f0db',200:'#ebe0b7',300:'#dcc686',400:'#cca95a',500:'#bd8e3a',600:'#a3722e',700:'#805425',800:'#644121',900:'#4b2f1a' }
+          }
         }
-    </script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
-        
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background-image: linear-gradient(rgba(45, 6, 15, 0.88), rgba(28, 3, 9, 0.94)), url('miniocean_a_digital_design_of_2D_chili_pepper_and_red_wine_as_1212b868-3ef1-4025-9076-1950ac454d7d_0.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-        }
-        .font-handwriting {
-            font-family: 'Ma Shan Zheng', cursive;
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #2d060f;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #bd8e3a;
-            border-radius: 3px;
-        }
-        /* Scanlines Overlay for CCTV TV */
-        .scanlines {
-            background: linear-gradient(
-                rgba(18, 16, 16, 0) 50%, 
-                rgba(0, 0, 0, 0.25) 50%
-            );
-            background-size: 100% 4px;
-            pointer-events: none;
-        }
-    </style>
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body { font-family: 'Noto Sans SC', sans-serif; }
+    .font-hw { font-family: 'Ma Shan Zheng', cursive; }
+    html { scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #2d060f; }
+    ::-webkit-scrollbar-thumb { background: #bd8e3a; border-radius: 3px; }
+
+    .section-card {
+      max-width: 640px; margin: 0 auto;
+      background: rgba(45,6,15,0.65);
+      border: 1px solid rgba(134,32,55,0.45);
+      border-radius: 1.5rem; padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+    .inp {
+      width: 100%; background: rgba(74,15,28,0.5);
+      border: 1px solid #862037; border-radius: 0.5rem;
+      padding: 0.5rem 0.75rem; color: #f5f5f4; font-size: 0.875rem;
+      outline: none; transition: border-color .15s;
+    }
+    .inp:focus { border-color: #bd8e3a; }
+    .inp::placeholder { color: #57534e; }
+    .btn-gold {
+      background: #bd8e3a; color: #2d060f; font-weight: 700;
+      padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-size: 0.875rem;
+      letter-spacing: 0.05em; transition: all .15s; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      border: none; width: 100%;
+    }
+    .btn-gold:hover { background: #cca95a; }
+    .btn-gold:active { transform: scale(0.97); }
+    .btn-gold:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-outline {
+      background: transparent; color: #dcc686; font-weight: 600;
+      padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.75rem;
+      border: 1px solid rgba(200,168,75,0.4); cursor: pointer; transition: all .15s;
+      display: flex; align-items: center; gap: 0.375rem;
+    }
+    .btn-outline:hover { background: rgba(200,168,75,0.12); }
+    .btn-outline:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #2d060f; border: 1px solid #bd8e3a; border-radius: 999px;
+      padding: 10px 20px; color: #dcc686; font-size: 13px;
+      display: flex; align-items: center; gap: 8px;
+      transition: transform 0.38s cubic-bezier(.34,1.56,.64,1), opacity 0.38s;
+      opacity: 0; z-index: 9999; max-width: 90vw;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* Blessing / story card */
+    .content-card {
+      background: rgba(45,6,15,0.7); border: 1px solid rgba(134,32,55,0.35);
+      border-radius: 0.875rem; padding: 1rem; space-y: 0.5rem;
+    }
+
+    /* Polaroid */
+    .polaroid {
+      background: #fff; padding: 8px 8px 28px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      cursor: pointer; transition: transform .25s, box-shadow .25s;
+    }
+    .polaroid:hover { transform: rotate(0deg) scale(1.04) !important; box-shadow: 0 8px 32px rgba(0,0,0,0.7); }
+
+    /* Slot reels */
+    .reel {
+      width: 5rem; height: 5rem; background: #1a0510;
+      border: 2px solid #bd8e3a; border-radius: 0.875rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.25rem; user-select: none; transition: transform .1s;
+    }
+    @media(min-width:400px){ .reel { width: 6rem; height: 6rem; } }
+
+    /* Ingredient buttons */
+    .ing-btn { transition: all .15s; }
+    .ing-btn.selected { ring: 2px solid #bd8e3a; box-shadow: 0 0 0 2px #bd8e3a; }
+
+    /* Modal backdrop */
+    .modal-wrap {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px); z-index: 1000;
+      display: none; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .modal-wrap.open { display: flex; }
+  </style>
 </head>
-<body class="text-stone-100 min-h-screen flex flex-col justify-between overflow-x-hidden pb-12">
 
-    <!-- Top Navigation Header -->
-    <header class="border-b border-wine-800/50 backdrop-blur-md sticky top-0 z-50 bg-wine-950/80 px-4 py-3">
-        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center space-x-3">
-                <div class="bg-gold-500 text-wine-950 p-2 rounded-full font-bold text-sm tracking-wider flex items-center justify-center">
-                    <i data-lucide="award" class="w-5 h-5"></i>
-                </div>
-                <div>
-                    <h1 class="text-lg font-bold text-gold-300">泡面专利事务所</h1>
-                    <p class="text-[10px] text-wine-300 tracking-widest uppercase">Poodle Noodles Intellectual Property</p>
-                </div>
-            </div>
-            <nav class="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
-                <button onclick="switchTab('home')" id="btn-home" class="tab-btn px-3 py-2 rounded-lg text-xs font-semibold transition-all bg-gold-500 text-wine-950 shadow-lg touch-manipulation">
-                    <i data-lucide="home" class="w-3.5 h-3.5 mr-1 inline"></i>
-                    前台接待
-                </button>
-                <button onclick="switchTab('archives')" id="btn-archives" class="tab-btn px-3 py-2 rounded-lg text-xs font-semibold transition-all text-wine-300 hover:bg-wine-800/40 touch-manipulation">
-                    <i data-lucide="camera" class="w-3.5 h-3.5 mr-1 inline"></i>
-                    泡面档案 & 共享相册
-                </button>
-                <button onclick="switchTab('blessings')" id="btn-blessings" class="tab-btn px-3 py-2 rounded-lg text-xs font-semibold transition-all text-wine-300 hover:bg-wine-800/40 touch-manipulation">
-                    <i data-lucide="message-square" class="w-3.5 h-3.5 mr-1 inline"></i>
-                    群星祝福墙
-                </button>
-                <button onclick="switchTab('patent')" id="btn-patent" class="tab-btn px-3 py-2 rounded-lg text-xs font-semibold transition-all text-wine-300 hover:bg-wine-800/40 touch-manipulation">
-                    <i data-lucide="scroll" class="w-3.5 h-3.5 mr-1 inline"></i>
-                    专利申请
-                </button>
-                <button onclick="switchTab('bistro')" id="btn-bistro" class="tab-btn px-3 py-2 rounded-lg text-xs font-semibold transition-all text-wine-300 hover:bg-wine-800/40 touch-manipulation">
-                    <i data-lucide="wine" class="w-3.5 h-3.5 mr-1 inline"></i>
-                    深夜酒馆
-                </button>
-                <button onclick="switchTab('verdict')" id="btn-verdict" class="tab-btn px-3 py-2 rounded-lg text-xs font-semibold transition-all text-wine-300 hover:bg-wine-800/40 touch-manipulation">
-                    <i data-lucide="gavel" class="w-3.5 h-3.5 mr-1 inline"></i>
-                    终审判决
-                </button>
-            </nav>
-        </div>
-    </header>
+<body class="text-stone-100 min-h-screen overflow-x-hidden"
+  style="background-color:#1c0309; background-image: linear-gradient(rgba(28,3,9,0.88), rgba(18,2,6,0.94)), url('assets/red-chili.png'); background-size:cover; background-attachment:fixed; background-position:center;">
 
-    <!-- Main Content Container -->
-    <main class="flex-grow max-w-4xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6 relative">
-        
-        <!-- ==================== TAB 1: HOME (RECEPTION) ==================== -->
-        <section id="tab-home" class="tab-content space-y-6">
-            
-            <!-- ADMIN PANE: VOX UPLOAD (去 Emoji 化) -->
-            <div class="bg-stone-900 border border-wine-800 rounded-xl p-4 shadow-inner space-y-3">
-                <button onclick="toggleCollapse('vox-setup')" class="text-xs font-bold text-gold-400 hover:text-gold-300 flex items-center space-x-2 touch-manipulation">
-                    <i data-lucide="mic" class="w-4 h-4"></i>
-                    <span>我想上传泡面真实的喵喵声原声 (点击设置)</span>
-                </button>
-                <div id="vox-setup" class="hidden space-y-3 bg-wine-950/40 p-3 rounded-lg border border-wine-800/50">
-                    <p class="text-stone-400 text-[10px]">💡 <b>如何使用：</b>上传文件（mp3/wav/m4a）后系统会自动同步。雅心点击猫咪头像听到的将是真实声音。语音功能也可用可降级。</p>
-                    <div class="flex items-center gap-2">
-                        <label class="bg-wine-800 hover:bg-wine-700 active:scale-95 text-gold-300 text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer transition-all flex items-center justify-center space-x-1.5 shadow touch-manipulation">
-                            <i data-lucide="upload" class="w-4 h-4"></i>
-                            <span>上传泡面录音</span>
-                            <input type="file" id="vox-input" accept="audio/*" class="hidden" onchange="handleVoxUpload(event)">
-                        </label>
-                        <span id="vox-status" class="text-xs text-stone-500 italic">检测原声同步状态...</span>
-                    </div>
-                </div>
-            </div>
+<!-- ══════════════════════════════════════════ NAV ══ -->
+<nav class="sticky top-0 z-50 bg-wine-950/80 backdrop-blur-md border-b border-wine-800/40 px-4 py-3">
+  <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 flex-wrap">
+    <div class="flex items-center gap-2.5 shrink-0 cursor-pointer" onclick="playMeow()">
+      <div class="w-9 h-9 rounded-full border-2 border-gold-400 bg-stone-300 flex items-center justify-center overflow-hidden shrink-0">
+        <svg viewBox="0 0 100 100" class="w-full h-full p-0.5">
+          <polygon points="25,40 15,15 45,30" fill="#a8a29e"/>
+          <polygon points="20,35 15,18 35,28" fill="#f43f5e"/>
+          <polygon points="75,40 85,15 55,30" fill="#a8a29e"/>
+          <polygon points="80,35 85,18 65,28" fill="#f43f5e"/>
+          <ellipse cx="50" cy="58" rx="34" ry="30" fill="#e7e5e4"/>
+          <circle cx="38" cy="50" r="5" fill="#1c1917"/>
+          <circle cx="62" cy="50" r="5" fill="#1c1917"/>
+          <circle cx="36.5" cy="48.5" r="1.5" fill="#fff"/>
+          <circle cx="60.5" cy="48.5" r="1.5" fill="#fff"/>
+          <polygon points="50,58 47,55 53,55" fill="#f43f5e"/>
+          <path d="M46,62 Q50,66 54,62" stroke="#1c1917" stroke-width="1.5" fill="none"/>
+          <line x1="24" y1="57" x2="8"  y2="54" stroke="#a8a29e" stroke-width="1.5"/>
+          <line x1="24" y1="62" x2="7"  y2="63" stroke="#a8a29e" stroke-width="1.5"/>
+          <line x1="76" y1="57" x2="92" y2="54" stroke="#a8a29e" stroke-width="1.5"/>
+          <line x1="76" y1="62" x2="93" y2="63" stroke="#a8a29e" stroke-width="1.5"/>
+          <rect x="29" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none"/>
+          <rect x="55" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none"/>
+          <line x1="45" y1="50" x2="55" y2="50" stroke="#d4af37" stroke-width="2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="text-gold-300 font-bold text-sm leading-tight">泡面专利事务所</div>
+        <div class="text-wine-400 text-[9px] tracking-widest uppercase">Poodle Noodles Intellectual Property</div>
+      </div>
+    </div>
+    <div class="flex gap-1.5 flex-wrap justify-end">
+      <a href="#hero"      class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">开场</a>
+      <a href="#blessings" class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">祝福墙</a>
+      <a href="#stories"   class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">她的故事</a>
+      <a href="#food"      class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">招牌菜</a>
+      <a href="#card"      class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">贺卡</a>
+      <a href="#photos"    class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">合照</a>
+      <a href="#eggs"      class="nav-pill px-3 py-1 rounded-full text-[11px] font-semibold text-gold-400 border border-gold-400/25 hover:bg-gold-400/10 transition-colors">彩蛋</a>
+    </div>
+  </div>
+</nav>
 
-            <!-- Poodle Noodles Header Card -->
-            <div class="bg-gradient-to-r from-wine-900/60 to-stone-900/60 border border-gold-500/20 rounded-2xl p-4 sm:p-6 shadow-xl backdrop-blur-sm relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-8 opacity-5">
-                    <i data-lucide="cat" class="w-48 h-48 text-gold-400"></i>
-                </div>
-                
-                <!-- Welcome Dialogue Box -->
-                <div class="flex flex-col md:flex-row items-center gap-6">
-                    <!-- Cat Avatar (Click for short meow sfx) -->
-                    <div class="relative flex-shrink-0 cursor-pointer" id="cat-avatar" onclick="playMeowSound()">
-                        <div class="w-32 h-32 rounded-full border-4 border-gold-400/80 overflow-hidden bg-stone-800 flex items-center justify-center shadow-lg relative group">
-                            <!-- SVG Cat Head with Glasses -->
-                            <svg viewBox="0 0 100 100" class="w-full h-full p-2">
-                                <!-- Ears -->
-                                <polygon points="25,40 15,15 45,30" fill="#a8a29e" />
-                                <polygon points="20,35 15,18 35,28" fill="#f43f5e" />
-                                <polygon points="75,40 85,15 55,30" fill="#a8a29e" />
-                                <polygon points="80,35 85,18 65,28" fill="#f43f5e" />
-                                <!-- Head -->
-                                <circle cx="50" cy="55" r="32" fill="#d6d3d1" />
-                                <ellipse cx="50" cy="58" rx="34" ry="28" fill="#e7e5e4" />
-                                <!-- Eyes -->
-                                <circle cx="38" cy="50" r="5" fill="#1c1917" />
-                                <circle cx="62" cy="50" r="5" fill="#1c1917" />
-                                <circle cx="36" cy="48" r="1.5" fill="#ffffff" />
-                                <circle cx="60" cy="48" r="1.5" fill="#ffffff" />
-                                <!-- Nose/Mouth -->
-                                <polygon points="50,58 47,55 53,55" fill="#f43f5e" />
-                                <path d="M 46,62 Q 50,65 50,62 Q 50,65 54,62" stroke="#1c1917" stroke-width="1.5" fill="none" />
-                                <!-- Whiskers -->
-                                <line x1="25" y1="58" x2="10" y2="56" stroke="#a8a29e" stroke-width="1.5" />
-                                <line x1="25" y1="62" x2="8" y2="63" stroke="#a8a29e" stroke-width="1.5" />
-                                <line x1="75" y1="58" x2="90" y2="56" stroke="#a8a29e" stroke-width="1.5" />
-                                <line x1="75" y1="62" x2="92" y2="63" stroke="#a8a29e" stroke-width="1.5" />
-                                <!-- Glasses for Lawyer Look -->
-                                <rect x="28" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none" />
-                                <rect x="56" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none" />
-                                <line x1="44" y1="50" x2="56" y2="50" stroke="#d4af37" stroke-width="2" />
-                            </svg>
-                            <span class="absolute bottom-1 bg-gold-500 text-wine-950 font-bold text-[9px] px-2 py-0.5 rounded-full scale-90 group-hover:scale-100 transition-transform">点我瞄一下</span>
-                        </div>
-                    </div>
-                    
-                    <div class="space-y-3 flex-1 text-center md:text-left">
-                        <div class="inline-block bg-wine-800 text-gold-300 text-xs px-3 py-1 rounded-full font-semibold border border-wine-700">
-                            事务所首席合伙人：泡面 (Poodle Noodles)
-                        </div>
-                        <h2 class="text-2xl font-bold text-gold-300 font-handwriting">"喵呜！欢迎来到本喵主持的秘密基地..."</h2>
-                        <p id="introduction-speech-text" class="text-stone-300 text-sm leading-relaxed">
-                            本喵是雅心的专属守护者。本喵要把大权交出来，带你进入专属她的快乐港湾！在这里，所有朋友都可以留言、录音甚至共享合影照片！汇聚在一起，成为送给雅心最真诚、最温暖的惊喜。
-                        </p>
-                        
-                        <!-- VOX INTRO PLAY BUTTON (去 Emoji 化) -->
-                        <div class="mt-4 flex flex-col sm:flex-row gap-3 items-center">
-                            <button id="btn-play-speech" onclick="toggleIntroductionSpeech()" class="w-full sm:w-auto bg-wine-800 hover:bg-wine-700 active:scale-95 text-gold-300 font-semibold px-4 py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 touch-manipulation shadow border border-wine-700">
-                                <i data-lucide="play" id="speech-icon" class="w-4 h-4"></i>
-                                <span id="speech-text">播放喵喵原声介绍</span>
-                            </button>
-                            <p id="speech-hint" class="text-[10px] text-wine-400 italic hidden sm:block">提示：浏览器可能需点选语种。请确保媒体音量已开启。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<main class="px-4 py-16 space-y-24">
 
-            <!-- Profile Badges Grid (去 Emoji 化) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-wine-900/30 border border-wine-800/40 p-5 rounded-xl flex items-start space-x-3">
-                    <div class="p-3 bg-red-950 text-red-400 rounded-lg">
-                        <i data-lucide="flame" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-gold-300 font-semibold text-sm">广西胃·无辣不欢</h3>
-                        <p class="text-xs text-stone-400 mt-1">螺蛳粉、爆辣美味！对辣的极致追求是注入灵魂的仪式感，更蕴含着不服输的火热底气。</p>
-                    </div>
-                </div>
+<!-- ══════════════════════════════════════════ HERO ══ -->
+<section id="hero" class="min-h-[82vh] flex flex-col items-center justify-center text-center">
 
-                <div class="bg-wine-900/30 border border-wine-800/40 p-5 rounded-xl flex items-start space-x-3">
-                    <div class="p-3 bg-wine-950 text-wine-400 rounded-lg">
-                        <i data-lucide="glass-water" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-gold-300 font-semibold text-sm">灵魂微醺·无酒不欢</h3>
-                        <p class="text-xs text-stone-400 mt-1">红酒摇曳出的，不仅是深夜的优雅，更是过滤掉生活繁杂后，最温暖、最静谧的片刻享受。</p>
-                    </div>
-                </div>
+  <!-- Cat avatar -->
+  <div class="relative mb-6 cursor-pointer select-none" onclick="playMeow()">
+    <div class="w-36 h-36 rounded-full border-4 border-gold-400 overflow-hidden bg-stone-300 shadow-2xl shadow-gold-500/25 mx-auto">
+      <svg viewBox="0 0 100 100" class="w-full h-full p-1">
+        <polygon points="25,40 15,15 45,30" fill="#a8a29e"/>
+        <polygon points="20,35 15,18 35,28" fill="#f43f5e"/>
+        <polygon points="75,40 85,15 55,30" fill="#a8a29e"/>
+        <polygon points="80,35 85,18 65,28" fill="#f43f5e"/>
+        <ellipse cx="50" cy="58" rx="34" ry="30" fill="#e7e5e4"/>
+        <circle cx="38" cy="50" r="5" fill="#1c1917"/>
+        <circle cx="62" cy="50" r="5" fill="#1c1917"/>
+        <circle cx="36.5" cy="48.5" r="1.5" fill="#fff"/>
+        <circle cx="60.5" cy="48.5" r="1.5" fill="#fff"/>
+        <polygon points="50,58 47,55 53,55" fill="#f43f5e"/>
+        <path d="M46,62 Q50,66 54,62" stroke="#1c1917" stroke-width="1.5" fill="none"/>
+        <line x1="24" y1="57" x2="8"  y2="54" stroke="#a8a29e" stroke-width="1.5"/>
+        <line x1="24" y1="62" x2="7"  y2="63" stroke="#a8a29e" stroke-width="1.5"/>
+        <line x1="76" y1="57" x2="92" y2="54" stroke="#a8a29e" stroke-width="1.5"/>
+        <line x1="76" y1="62" x2="93" y2="63" stroke="#a8a29e" stroke-width="1.5"/>
+        <rect x="29" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none"/>
+        <rect x="55" y="44" width="16" height="12" rx="3" stroke="#d4af37" stroke-width="2" fill="none"/>
+        <line x1="45" y1="50" x2="55" y2="50" stroke="#d4af37" stroke-width="2"/>
+      </svg>
+    </div>
+    <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gold-500 text-wine-950 text-[10px] font-bold px-3 py-0.5 rounded-full whitespace-nowrap shadow">点我喵一下</span>
+  </div>
 
-                <div class="bg-wine-900/30 border border-wine-800/40 p-5 rounded-xl flex items-start space-x-3">
-                    <div class="p-3 bg-gold-950/80 text-gold-400 rounded-lg">
-                        <i data-lucide="chef-hat" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-gold-300 font-semibold text-sm">默默温柔·神级厨艺</h3>
-                        <p class="text-xs text-stone-400 mt-1">极度擅长做饭，总是细心地把朋友的口味照顾周全，默默温暖着身边的每个人。</p>
-                    </div>
-                </div>
-            </div>
+  <!-- Speech bubble -->
+  <div class="relative bg-wine-900/70 border border-gold-500/30 rounded-2xl px-6 py-4 max-w-xs mx-auto mb-8 text-sm text-stone-200 leading-relaxed shadow-lg">
+    <div class="absolute -top-2.5 left-1/2 -translate-x-1/2 w-0 h-0"
+      style="border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:10px solid rgba(134,32,55,0.4)"></div>
+    喵呜～ 欢迎来到本喵的地盘。<br>今天是雅心的日子，所有朋友集合！
+  </div>
 
-            <!-- Warm Intro Text (去 Emoji 化) -->
-            <div class="bg-gradient-to-r from-stone-900 to-wine-900/40 border border-gold-500/10 p-5 sm:p-6 rounded-2xl">
-                <h3 class="text-md sm:text-lg font-bold text-gold-300 flex items-center space-x-2">
-                    <i data-lucide="heart" class="w-5 h-5 text-gold-400"></i>
-                    <span>致雅心：一封来自未来的专利检索报告</span>
-                </h3>
-                <div class="mt-4 text-xs sm:text-sm text-stone-300 space-y-3 leading-relaxed">
-                    <p>
-                        <b>检索项目：</b> 雅心的闪光点与未来职业轨迹 <br>
-                        <b>检索状态：</b> 绝赞大丰收中 <i data-lucide="search" class="w-3.5 h-3.5 inline"></i>
-                    </p>
-                    <p>
-                        我知道目前寻找工作就像在撰写一份极复杂的专利书，需要推敲。但请相信，像你这样严谨专业、温柔体贴、又极其热爱生活的美食家大律师，任何机构错过你都是重大的损失！
-                    </p>
-                    <p class="text-gold-400/90 font-medium">
-                        别着急，最好的Offer已经在路上了。今天，先去群星祝福墙和档案室看看朋友们为你带来的专属温暖吧！
-                    </p>
-                </div>
-            </div>
-            
-            <div class="text-center pt-2">
-                <button onclick="switchTab('blessings')" class="w-full sm:w-auto bg-gold-500 text-wine-950 font-bold px-6 py-3.5 rounded-xl hover:bg-gold-400 active:scale-95 shadow-lg shadow-gold-500/10 transition-all inline-flex items-center justify-center space-x-2 touch-manipulation">
-                    <i data-lucide="message-square" class="w-4 h-4 mr-1 inline"></i>
-                    <span>前往群星祝福墙留下爱心</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </button>
-            </div>
-        </section>
+  <!-- Title -->
+  <h1 class="font-hw text-5xl sm:text-7xl text-gold-300 mb-3 drop-shadow-lg leading-tight">生日快乐</h1>
+  <h2 class="font-hw text-4xl sm:text-5xl text-gold-400 mb-6 drop-shadow-lg">雅心</h2>
 
-        <!-- ==================== TAB 2: PAOMIAN ARCHIVES (PHOTOS & VIDEOS) ==================== -->
-        <section id="tab-archives" class="tab-content hidden space-y-6">
-            <div class="bg-wine-900/30 border border-wine-800/40 rounded-2xl p-4 sm:p-6 backdrop-blur-sm">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-                    <div class="flex items-center space-x-2 text-gold-400">
-                        <i data-lucide="camera" class="w-6 h-6"></i>
-                        <h2 class="text-lg sm:text-xl font-bold">合伙人泡面的独家私密相册 & 视频</h2>
-                    </div>
-                    <div class="flex flex-row flex-wrap gap-2 w-full sm:w-auto">
-                        <label class="flex-1 sm:flex-initial bg-gold-500 hover:bg-gold-400 active:scale-95 text-wine-950 text-xs font-bold px-3 py-3 rounded-lg cursor-pointer transition-all flex items-center justify-center space-x-1 shadow touch-manipulation">
-                            <i data-lucide="image-plus" class="w-3.5 h-3.5"></i>
-                            <span>上传照片</span>
-                            <input type="file" id="photo-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
-                        </label>
-                        <label class="flex-1 sm:flex-initial bg-wine-800 hover:bg-wine-700 active:scale-95 text-gold-300 text-xs font-bold px-3 py-3 rounded-lg cursor-pointer border border-wine-700 transition-all flex items-center justify-center space-x-1 shadow touch-manipulation">
-                            <i data-lucide="video" class="w-3.5 h-3.5"></i>
-                            <span>导入视频</span>
-                            <input type="file" id="video-input" accept="video/*" class="hidden" onchange="handleVideoUpload(event)">
-                        </label>
-                    </div>
-                </div>
-                <p class="text-stone-300 text-xs mb-4">
-                    💡 **多人共享相册**：任何来访的朋友点击上传照片按钮选择合照后，会自动实时同步到云端数据库，所有人都能立刻在这个相册墙上看到！
-                </p>
+  <!-- Date / countdown -->
+  <div id="hero-date" class="text-wine-300 text-sm mb-12 tracking-wide"></div>
 
-                <!-- SECTION A: VINTAGE CCTV MONITOR (去 Emoji 化) -->
-                <div class="mb-8">
-                    <h3 class="text-xs sm:text-sm font-semibold text-gold-400 tracking-wider uppercase mb-3 flex items-center space-x-1.5">
-                        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse-slow"></span>
-                        <span>C-CAT-TV 安全监控中：</span>
-                    </h3>
-                    
-                    <div class="bg-stone-900 border-4 border-stone-800 rounded-2xl sm:rounded-3xl p-3 sm:p-4 shadow-2xl relative max-w-lg mx-auto overflow-hidden">
-                        <div class="bg-black aspect-video rounded-xl overflow-hidden border-2 border-stone-950 relative flex items-center justify-center group">
-                            <div class="scanlines absolute inset-0 z-10 opacity-30"></div>
-                            <div class="absolute top-2 left-2 z-20 text-[8px] sm:text-[10px] text-green-400 font-mono tracking-wider bg-black/40 px-1.5 py-0.5 rounded">CAM 01</div>
-                            <div class="absolute top-2 right-2 z-20 text-[8px] sm:text-[10px] text-red-500 font-mono tracking-wider bg-black/40 px-1.5 py-0.5 rounded flex items-center space-x-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
-                                <span>REC <i data-lucide="target" class="w-2.5 h-2.5 inline text-red-500"></i></span>
-                            </div>
-                            <div class="absolute bottom-2 left-2 z-20 text-[8px] sm:text-[10px] text-green-400 font-mono bg-black/40 px-1.5 py-0.5 rounded">2026-06-23 (生日)</div>
-                            <div id="cctv-placeholder" class="text-center p-4 space-y-2 z-10">
-                                <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center mx-auto text-gold-400"><i data-lucide="video-off" class="w-6 h-6"></i></div>
-                                <div class="text-xs sm:text-sm font-semibold text-stone-300">暂无录像信号</div>
-                                <p class="text-[10px] sm:text-xs text-stone-500 max-w-xs mx-auto">点击上方导入视频，即可在此播放录像！</p>
-                            </div>
-                            <video id="cctv-player" controls class="w-full h-full object-cover hidden z-0" loop autoplay muted></video>
-                        </div>
-                        <div class="mt-2.5 flex items-center justify-between px-1 text-stone-600">
-                            <div class="flex space-x-1">
-                                <span class="w-2 h-2 rounded-full bg-stone-700"></span>
-                                <span class="w-2 h-2 rounded-full bg-stone-700"></span>
-                                <span class="w-2 h-2 rounded-full bg-stone-700"></span>
-                            </div>
-                            <div class="text-[8px] font-mono tracking-widest text-stone-500">SUPER BRIGHTNESS</div>
-                            <div class="flex space-x-1.5 items-center">
-                                <div class="w-5 h-5 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center"><div class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div></div>
-                                <div class="w-3.5 h-3.5 bg-stone-800 rounded"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!-- Scroll cue -->
+  <a href="#blessings" class="text-gold-400/60 hover:text-gold-400 transition-colors" style="animation:bounce 2s infinite">
+    <i data-lucide="chevrons-down" class="w-8 h-8"></i>
+  </a>
+</section>
 
-                <!-- SECTION B: POLAROID PHOTO WALL -->
-                <div>
-                    <h3 class="text-xs sm:text-sm font-semibold text-gold-400 tracking-wider uppercase mb-3">共享的拍立得相册墙：</h3>
-                    <div id="photo-gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 pt-2 justify-center">
-                        <div class="loading-photos-indicator col-span-full text-center text-stone-500 py-6 italic text-xs">正在从云端抓取照片...</div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center pt-2">
-                <button onclick="switchTab('blessings')" class="w-full sm:w-auto bg-gold-500 text-wine-950 font-bold px-6 py-3.5 rounded-xl hover:bg-gold-400 active:scale-95 shadow-lg shadow-gold-500/10 transition-all inline-flex items-center justify-center space-x-2 touch-manipulation">
-                    <i data-lucide="message-square" class="w-4 h-4 mr-1 inline"></i>
-                    <span>前往群星祝福墙留下爱心</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </button>
-            </div>
-        </section>
+<!-- ══════════════════════════════════════════ BLESSINGS ══ -->
+<section id="blessings">
+  <div class="section-card space-y-6">
+    <div class="flex items-center gap-2 text-gold-400">
+      <i data-lucide="message-circle" class="w-6 h-6"></i>
+      <h2 class="text-xl font-bold">群星祝福墙</h2>
+    </div>
+    <p class="text-stone-400 text-sm leading-relaxed">任何朋友都可以留下写给雅心的话——文字、语音、图片都行，大家都能看到。</p>
 
-        <!-- ==================== TAB 3: BLESINGS BOARD ==================== -->
-        <section id="tab-blessings" class="tab-content hidden space-y-6">
-            <div class="bg-wine-900/30 border border-wine-800/40 rounded-2xl p-4 sm:p-6 backdrop-blur-sm">
-                <div class="flex items-center space-x-2 text-gold-400 mb-2">
-                    <i data-lucide="message-circle" class="w-6 h-6"></i>
-                    <h2 class="text-lg sm:text-xl font-bold">群星暖心祝福墙</h2>
-                </div>
-                <p class="text-stone-300 text-xs sm:text-sm mb-4">任何朋友都可以在这里留下写给雅心的暖心话！不仅支持文字，更支持**通过麦克风直接录制一段语音祝福**，让声音也温暖相随。</p>
+    <div class="bg-wine-950/60 rounded-xl border border-wine-800/40 p-4 space-y-3">
+      <input id="bl-author" class="inp" type="text" placeholder="你的名字或外号">
+      <textarea id="bl-text" class="inp" rows="3" style="resize:none;" placeholder="写给雅心的话……"></textarea>
 
-                <div class="bg-wine-950/60 p-4 rounded-xl border border-wine-800/50 space-y-4">
-                    <h3 class="text-xs font-bold text-gold-400 tracking-wider uppercase">添加我的祝福：</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-[10px] font-semibold text-stone-400 mb-1">我的名字/昵称</label>
-                            <input type="text" id="blessing-author" placeholder="你的专属外号" class="w-full bg-wine-900/60 border border-wine-800 rounded-lg px-3 py-2 text-stone-100 text-xs focus:outline-none focus:border-gold-500">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-semibold text-stone-400 mb-1">我的广西专属称呼（选填）</label>
-                            <input type="text" id="blessing-extra" placeholder="如：老表、闺蜜、泡面大姨等" class="w-full bg-wine-900/60 border border-wine-800 rounded-lg px-3 py-2 text-stone-100 text-xs focus:outline-none focus:border-gold-500">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-semibold text-stone-400 mb-1">写给雅心的暖心话</label>
-                        <textarea id="blessing-text" rows="3" placeholder="雅心，祝你天天开心！早日斩获 Offer，红酒管饱，辣椒管够！" class="w-full bg-wine-900/60 border border-wine-800 rounded-lg px-3 py-2 text-stone-100 text-xs focus:outline-none focus:border-gold-500"></textarea>
-                    </div>
+      <div class="flex gap-2 flex-wrap">
+        <button id="bl-rec-btn" onclick="toggleBlessingRecording()" class="btn-outline">
+          <span id="bl-rec-dot" class="w-2 h-2 rounded-full bg-red-400 shrink-0"></span>
+          <span id="bl-rec-txt">录音祝福</span>
+        </button>
+        <button id="bl-play-btn" onclick="previewBlessingAudio()" disabled class="btn-outline">
+          <i data-lucide="play" class="w-3.5 h-3.5"></i> 试听
+        </button>
+        <label class="btn-outline cursor-pointer">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i> 上传图片
+          <input type="file" id="bl-img-input" accept="image/*" class="hidden" onchange="onBlessingImageSelected(event)">
+        </label>
+        <span id="bl-img-name" class="text-xs text-stone-500 self-center truncate max-w-[120px]"></span>
+      </div>
 
-                    <div class="bg-wine-900/40 p-3 rounded-lg border border-wine-800/30 flex flex-col sm:flex-row items-center justify-between gap-3">
-                        <div class="text-left">
-                            <span class="text-xs font-bold text-gold-400 block"><i data-lucide="mic" class="w-3.5 h-3.5 inline text-gold-400"></i> 语音悄悄话录音</span>
-                            <span class="text-[10px] text-stone-400">点击按钮说出你的祝愿吧（最长10s）</span>
-                        </div>
-                        <div class="flex items-center space-x-2 w-full sm:w-auto shrink-0">
-                            <button id="record-btn" onclick="toggleVoiceRecording()" class="flex-1 sm:flex-initial bg-red-800 hover:bg-red-700 text-white font-bold px-3 py-2 rounded-lg text-xs flex items-center justify-center space-x-1 transition-all touch-manipulation">
-                                <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse" id="record-dot"></span>
-                                <span id="record-txt">开始录音</span>
-                            </button>
-                            <button id="play-preview-btn" onclick="previewRecordedVoice()" disabled class="flex-1 sm:flex-initial bg-stone-800 hover:bg-stone-700 text-gold-400 font-bold px-3 py-2 rounded-lg text-xs flex items-center justify-center space-x-1 transition-all disabled:opacity-40 touch-manipulation">
-                                <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                                <span>试听</span>
-                            </button>
-                        </div>
-                    </div>
-                    <button onclick="submitBlessing()" class="w-full bg-gold-500 hover:bg-gold-400 active:scale-95 text-wine-950 font-bold py-3 rounded-lg text-xs sm:text-sm tracking-wider uppercase transition-all flex items-center justify-center space-x-2 shadow-lg shadow-gold-500/10 touch-manipulation">
-                        <i data-lucide="send" class="w-4 h-4"></i>
-                        <span>将我的祝福挂上星光墙 <i data-lucide="star" class="w-4 h-4 inline text-gold-500/20"></i></span>
-                    </button>
-                </div>
-
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold text-gold-400 tracking-wider uppercase border-b border-wine-800/40 pb-2 flex items-center justify-between">
-                        <span>星光祝词墙：</span>
-                        <span id="blessing-count" class="text-wine-300">正在同步中...</span>
-                    </h3>
-                    <div id="blessings-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="loading-indicator text-center text-stone-500 py-8 italic text-xs">正在同步留言...</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== TAB 4: PATENT GENERATOR (去 Emoji 化) ==================== -->
-        <section id="tab-patent" class="tab-content hidden space-y-6">
-            <div class="bg-wine-900/30 border border-wine-800/40 rounded-2xl p-4 sm:p-6 backdrop-blur-sm">
-                <div class="flex items-center space-x-2 text-gold-400 mb-2">
-                    <i data-lucide="scroll" class="w-6 h-6"></i>
-                    <h2 class="text-lg sm:text-xl font-bold">喵星授权：专利申请机</h2>
-                </div>
-                <p class="text-stone-300 text-xs sm:text-sm mb-4 sm:mb-6">为自己申请一份神奇专利保护！快来申请一份专属于你的专利，并获得泡面盖章的证书吧。</p>
-
-                <div class="space-y-4 bg-wine-950/40 p-4 rounded-xl border border-wine-800/50">
-                    <div>
-                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gold-400 tracking-wider mb-2">专利领域</label>
-                        <select id="patent-type" class="w-full bg-wine-900/60 border border-wine-800 rounded-lg px-3 py-2.5 text-stone-100 text-xs sm:text-sm focus:outline-none focus:border-gold-500" onchange="updatePatentDescription()">
-                            <option value="cuisine">【厨艺】深夜灵魂治愈级美食秘方</option>
-                            <option value="spicy">【抗辣】广西顶级干辣椒免疫基因</option>
-                            <option value="wine">【酒仙】优雅红酒杯不养鱼仪</option>
-                            <option value="career">【职场】 Offer 吸引法则</option>
-                            <option value="cat">【猫奴】泡面专属呼噜声捕获技术</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gold-400 tracking-wider mb-2">发明人</label>
-                        <input type="text" id="patent-inventor" value="雅心大律师" class="w-full bg-wine-900/60 border border-wine-800 rounded-lg px-3 py-2.5 text-stone-100 text-xs sm:text-sm focus:outline-none focus:border-gold-500">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] sm:text-xs font-semibold uppercase text-gold-400 tracking-wider mb-2">技术简述</label>
-                        <textarea id="patent-desc" rows="3" class="w-full bg-wine-900/60 border border-wine-800 rounded-lg px-3 py-2 text-stone-100 text-xs sm:text-sm focus:outline-none focus:border-gold-500">本发明保护无需张扬，即可通过纯熟功底，使朋友口水直流的神级菜肴方法。令人身心治愈。</textarea>
-                    </div>
-                    <button onclick="generatePatentCertificate()" class="w-full bg-gold-500 hover:bg-gold-400 active:scale-98 text-wine-950 font-bold py-3.5 rounded-lg text-xs sm:text-sm tracking-wider uppercase transition-all flex items-center justify-center space-x-2 shadow-lg shadow-gold-500/10 touch-manipulation">
-                        <i data-lucide="certificate" class="w-4.5 h-4.5"></i>
-                        <span>向喵星局提交申请并颁发证书</span>
-                    </button>
-                </div>
-            </div>
-
-            <div id="certificate-container" class="hidden transition-all duration-500 scale-95 opacity-0">
-                <div class="bg-[#f5ebd6] text-stone-900 p-4 sm:p-8 rounded-xl border-4 sm:border-8 border-[#bd8e3a] shadow-2xl relative overflow-hidden max-w-xl mx-auto">
-                    <div class="absolute inset-1 sm:inset-2 border border-dashed border-[#bd8e3a]/60 pointer-events-none"></div>
-                    <div class="absolute top-2 left-2 text-[8px] font-serif tracking-widest text-[#bd8e3a] font-bold">NO. MEOW-8888888</div>
-                    <div class="text-center space-y-4 sm:space-y-6 my-2 sm:my-4 relative">
-                        <div class="absolute top-0 left-1/2 -translate-x-1/2 opacity-5 pointer-events-none"><i data-lucide="cat" class="w-48 h-48 sm:w-64 sm:h-64"></i></div>
-                        <h2 class="text-xl sm:text-3xl font-bold tracking-wider sm:tracking-widest font-serif text-[#771a2b] uppercase mt-2">喵星特许发明专利证书</h2>
-                        <p class="text-[9px] sm:text-xs tracking-widest font-sans font-semibold text-stone-600 uppercase border-b border-[#bd8e3a] pb-2 sm:pb-3 max-w-xs mx-auto">PATENT OF THE UNIVERSE INTELLECTUAL PROPERTY</p>
-                        <div class="space-y-3 sm:space-y-4 text-left font-serif text-xs sm:text-sm mt-4 sm:mt-8 max-w-md mx-auto text-stone-800">
-                            <div><span class="font-sans font-bold text-[9px] sm:text-xs text-[#bd8e3a] block">【发明名称】</span><span class="text-sm sm:text-base font-bold text-stone-900" id="cert-title">神级美食秘方</span></div>
-                            <div class="grid grid-cols-2 gap-2 sm:gap-4">
-                                <div><span class="font-sans font-bold text-[9px] sm:text-xs text-[#bd8e3a] block">【发明人】</span><span class="font-bold text-xs sm:text-sm text-stone-900" id="cert-inventor">雅心律师</span></div>
-                                <div><span class="font-sans font-bold text-[9px] sm:text-xs text-[#bd8e3a] block">【猫咪】</span><span class="font-bold text-xs sm:text-sm text-stone-900">泡面</span></div>
-                            </div>
-                            <div><span class="font-sans font-bold text-[9px] sm:text-xs text-[#bd8e3a] block">【保护范围】</span><p class="text-[10px] sm:text-xs leading-relaxed text-stone-700 italic font-sans" id="cert-desc">本发明保护通过烹饪功底，使朋友直流的神级菜肴。身心治愈。</p></div>
-                            <div class="border-t border-[#bd8e3a]/30 pt-3 sm:pt-4 flex justify-between items-end">
-                                <div class="text-[9px] sm:text-xs font-sans text-stone-500 space-y-0.5"><div>专利局长：<b>泡面 <i data-lucide="paw-print" class="w-3.5 h-3.5 inline"></i></b></div><div class="sm:hidden block">授权：2026年06月23日</div></div>
-                                <div class="w-16 h-16 sm:w-20 sm:h-20 border-2 sm:border-4 border-[#771a2b] rounded-full flex flex-col items-center justify-center -rotate-12 select-none opacity-80 bg-orange-100/30 shrink-0"><span class="text-[6px] sm:text-[8px] font-bold text-[#771a2b] tracking-wider">喵星局</span><i data-lucide="shield-check" class="w-4 h-4 sm:w-6 sm:h-6 text-[#771a2b] my-0.5"></i><span class="text-[6px] sm:text-[8px] font-bold text-[#771a2b] tracking-wider">准予授权</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center mt-4 text-xs text-stone-400 px-4">💡 提示：证书通过公证！长按或截图分享给雅心！</div>
-            </div>
-        </section>
-
-        <!-- ==================== TAB 5: BISTRO (去 Emoji 化) ==================== -->
-        <section id="tab-bistro" class="tab-content hidden space-y-6">
-            <div class="bg-wine-900/30 border border-wine-800/40 rounded-2xl p-4 sm:p-6 backdrop-blur-sm">
-                <div class="flex items-center space-x-2 text-gold-400 mb-2">
-                    <i data-lucide="wine" class="w-6 h-6"></i>
-                    <h2 class="text-lg sm:text-xl font-bold">雅心的狂辣深夜小酒馆</h2>
-                </div>
-                <p class="text-stone-300 text-xs sm:text-sm mb-4 sm:mb-6">对味蕾最极致的宠溺。<b>点击下面你最爱的原料</b>，投入杯中，看碰撞出怎样的特调！</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
-                    <div class="space-y-3">
-                        <h3 class="text-xs font-semibold text-gold-400 tracking-wider uppercase">添加至多 3 种配料：</h3>
-                        <div class="space-y-2">
-                            <button onclick="addIngredient('辣椒')" class="w-full flex items-center justify-between p-3 bg-red-950/40 hover:bg-red-900/40 active:bg-red-900/60 border border-red-800/40 rounded-xl text-left transition-all touch-manipulation"><span class="flex items-center space-x-2 sm:space-x-3"><span class="text-xl shrink-0"><i data-lucide="bomb" class="w-6 h-6 inline text-red-500"></i></span><div><div class="text-xs sm:text-sm font-semibold text-stone-100">广西爆烈辣椒</div><div class="text-[10px] sm:text-xs text-stone-400">热辣底气</div></div></span><span class="text-[10px] bg-red-800/80 text-white px-2 py-0.5 rounded-full shrink-0">+ 辛辣</span></button>
-                            <button onclick="addIngredient('红酒')" class="w-full flex items-center justify-between p-3 bg-purple-950/40 hover:bg-purple-900/40 active:bg-purple-900/60 border border-purple-800/40 rounded-xl text-left transition-all touch-manipulation"><span class="flex items-center space-x-2 sm:space-x-3"><span class="text-xl shrink-0"><i data-lucide="glass-water" class="w-6 h-6 inline text-purple-400"></i></span><div><div class="text-xs sm:text-sm font-semibold text-stone-100">勃艮第典雅红酒</div><div class="text-[10px] sm:text-xs text-stone-400">浪漫微醺</div></div></span><span class="text-[10px] bg-purple-800/80 text-white px-2 py-0.5 rounded-full shrink-0">+ 微醺</span></button>
-                            <button onclick="addIngredient('厨艺')" class="w-full flex items-center justify-between p-3 bg-amber-950/40 hover:bg-amber-900/40 active:bg-amber-900/60 border border-amber-800/40 rounded-xl text-left transition-all touch-manipulation"><span class="flex items-center space-x-2 sm:space-x-3"><span class="text-xl shrink-0"><i data-lucide="flame" class="w-6 h-6 inline text-amber-400"></i></span><div><div class="text-xs sm:text-sm font-semibold text-stone-100">神级厨艺魔法</div><div class="text-[10px] sm:text-xs text-stone-400">深夜温暖烟火气</div></div></span><span class="text-[10px] bg-amber-800/80 text-white px-2 py-0.5 rounded-full shrink-0">+ 温暖</span></button>
-                            <button onclick="addIngredient('运气')" class="w-full flex items-center justify-between p-3 bg-teal-950/40 hover:bg-teal-900/40 active:bg-teal-900/60 border border-teal-800/40 rounded-xl text-left transition-all touch-manipulation"><span class="flex items-center space-x-2 sm:space-x-3"><span class="text-xl shrink-0"><i data-lucide="award" class="w-6 h-6 inline text-teal-400"></i></span><div><div class="text-xs sm:text-sm font-semibold text-stone-100">绝佳 Offer</div><div class="text-[10px] sm:text-xs text-stone-400">职场高管职位</div></div></span><span class="text-[10px] bg-teal-800/80 text-white px-2 py-0.5 rounded-full shrink-0">+ 运气</span></button>
-                            <button onclick="addIngredient('呼噜')" class="w-full flex items-center justify-between p-3 bg-orange-950/40 hover:bg-orange-900/40 active:bg-orange-900/60 border border-orange-800/40 rounded-xl text-left transition-all touch-manipulation"><span class="flex items-center space-x-2 sm:space-x-3"><span class="text-xl shrink-0"><i data-lucide="paw-print" class="w-6 h-6 inline text-orange-400"></i></span><div><div class="text-sm font-semibold text-stone-100">泡面的踩奶</div><div class="text-[10px] sm:text-xs text-stone-400">全时段专属疗愈</div></div></span><span class="text-[10px] bg-orange-800/80 text-white px-2 py-0.5 rounded-full shrink-0">+ 疗愈</span></button>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-center p-6 bg-wine-950/60 rounded-2xl border border-wine-800/40 min-h-[300px] sm:min-h-[350px]">
-                        <h4 class="text-xs text-gold-400 font-bold tracking-widest mb-4">我的特调杯</h4>
-                        <div class="relative w-28 h-32 sm:w-36 sm:h-40 flex items-center justify-center">
-                            <div id="glass-ingredients" class="absolute inset-0 flex flex-col items-center justify-end pb-8 sm:pb-12 space-y-1 transition-all"><span class="text-stone-500 text-xs italic">空杯待调...</span></div>
-                            <svg viewBox="0 0 100 100" class="w-full h-full stroke-gold-300 fill-none" stroke-width="2"><ellipse cx="50" cy="20" rx="30" ry="8"/><path d="M 23,45 Q 50,55 77,45" id="liquid-wave" class="hidden stroke-wine-500 fill-wine-900/60"/><path d="M 20,20 C 20,60 80,60 80,20"/><line x1="50" y1="52" x2="50" y2="85"/><ellipse cx="50" cy="85" rx="20" ry="5"/></svg>
-                        </div>
-                        <div class="mt-6 w-full space-y-2"><div class="flex space-x-2"><button onclick="clearGlass()" class="w-1/2 bg-stone-800 hover:bg-stone-700 active:scale-95 text-stone-300 font-semibold py-2.5 sm:py-2 rounded-lg text-xs transition-all touch-manipulation">倒空重调</button><button onclick="mixCocktail()" id="mix-btn" disabled class="w-1/2 bg-gold-500 hover:bg-gold-400 active:scale-95 disabled:opacity-40 text-wine-950 font-bold py-2.5 sm:py-2 rounded-lg text-xs transition-all touch-manipulation">碰撞！</button></div></div>
-                    </div>
-                </div>
-            </div>
-            <div id="cocktail-result" class="hidden bg-gradient-to-r from-wine-900/80 to-purple-950/80 border-2 border-gold-400 p-5 sm:p-6 rounded-2xl text-center space-y-4 animate-fade-in shadow-2xl">
-                <div class="inline-block bg-gold-400 text-wine-950 text-xs px-3 py-1 rounded-full font-bold">💎 今日限定特调：【<span id="cocktail-name">辣辣苏打</span>】</div>
-                <h3 class="text-lg sm:text-xl font-bold text-gold-300 font-handwriting" id="cocktail-toast">“这一杯，祝你越热烈越自由！”</h3>
-                <p class="text-xs sm:text-sm text-stone-200 leading-relaxed max-w-lg mx-auto" id="cocktail-desc">蕴含热烈力量。在未来的日子里，你的生活热气腾腾！</p>
-                <div class="text-xs text-wine-300 italic">点击听声音：<button onclick="playClinkSound()" class="bg-wine-800 hover:bg-wine-700 text-gold-300 px-3.5 py-1.5 rounded-full font-bold ml-1 inline-flex items-center space-x-1 touch-manipulation"><i data-lucide="clapperboard" class="w-3.5 h-3.5 inline"></i><span>叮~</span></button></div>
-            </div>
-        </section>
-
-        <!-- ==================== TAB 6: VERDICT (去 Emoji 化) ==================== -->
-        <section id="tab-verdict" class="tab-content hidden space-y-6">
-            <div class="bg-wine-900/30 border border-wine-800/40 rounded-2xl p-4 sm:p-6 backdrop-blur-sm relative overflow-hidden">
-                <div class="absolute top-4 right-4 opacity-5"><i data-lucide="scale" class="w-64 h-64 text-gold-400"></i></div>
-                <div class="flex items-center space-x-2 text-gold-400 mb-2"><i data-lucide="gavel" class="w-6 h-6"></i><h2 class="text-lg sm:text-xl font-bold">最高正义法庭 · 终审判决书</h2>
-                </div>
-                <p class="text-stone-300 text-xs sm:text-sm mb-4 sm:mb-6">对“泡面”尽职、百般体贴友人、卓越厨艺！本庭今日做出宣判！</p>
-                <div class="bg-[#fcf8f2] text-stone-900 p-4 sm:p-8 rounded-xl shadow-2xl border-l-8 border-gold-600 relative font-serif">
-                    <div class="absolute inset-0 pointer-events-none opacity-5 flex items-center justify-center"><span class="text-8xl sm:text-9xl font-bold text-red-950 font-handwriting">法</span></div>
-                    <div class="space-y-4 sm:space-y-6 text-xs sm:text-sm text-stone-800 leading-relaxed">
-                        <div class="text-center space-y-1 border-b border-stone-300 pb-3 sm:pb-4"><h1 class="text-md sm:text-xl font-bold text-stone-950 tracking-wider">喵星最高法庭</h1><h2 class="text-xs sm:text-md font-bold text-stone-950 tracking-widest">民事裁决书</h2><p class="text-[10px] text-stone-500">(2026) 第 0623 号</p></div>
-                        <div><p><b>公诉人：</b> 雅心的所有挚友</p><p><b>被告人：</b> 雅心（代理人、神厨）</p><p><b>代理人：</b> 泡面（猫）</p></div>
-                        <div class="space-y-1 sm:space-y-2"><p class="font-bold text-stone-950">【审理查明】</p><p>具有高度美德与专业度。其日常厨艺出神入化，对待他人关怀备至；红酒及辣食研发水平极高。本庭认为，任何检索暂时皆是宇宙精心准备的最佳 Offer 准备期。</p>
-                        </div>
-                        <div class="space-y-1 sm:space-y-2"><p class="font-bold text-stone-950">【判决如下】</p><div class="bg-gold-50 border border-gold-300 p-3 sm:p-4 rounded-lg space-y-2 text-stone-950 font-bold font-sans text-xs">
-                            <p>一、生日（今日）起，享有强制快乐权！</p><p>二、斬获一枚完美 Offer：薪资极高、尊重专业。</p><p>三、特许红酒管饱、吃辣不爆痘！</p><p>四、猫咪“泡面”执行贴贴服务。</p></div>
-                        </div>
-                        <div class="border-t border-stone-300 pt-3 sm:pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs"><div><p>审判长：<b>好运猫 <i data-lucide="paw-print" class="w-3.5 h-3.5 inline"></i></b></p></div><div class="text-left sm:text-right w-full sm:w-auto shrink-0 border-t sm:border-t-0 border-dashed border-stone-300 sm:pt-0 pt-2"><p>二〇二六年六月二十三日</p><p class="text-stone-400 text-[10px] italic">本判决为终审裁决，即刻执行</p></div></div>
-                    </div>
-                </div>
-                <div class="text-center pt-4"><button onclick="knockGavel()" class="w-full sm:w-auto bg-red-700 hover:bg-red-600 active:scale-95 text-stone-100 font-bold px-6 py-3.5 rounded-xl shadow-lg hover:shadow-red-700/30 transition-all inline-flex items-center justify-center space-x-2 touch-manipulation"><i data-lucide="gavel" class="w-5 h-5"></i><span>敲击法槌以示生效</span></button></div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer (去 Emoji 化) -->
-    <footer class="max-w-4xl mx-auto w-full text-center text-xs text-wine-300 border-t border-wine-800/40 pt-6 px-4 mt-8"><p class="tracking-wider">祝雅心生日快乐！天天开心！</p><p class="text-[10px] text-wine-400/80 mt-1">泡面事务所联合开发 <i data-lucide="paw-print" class="w-3.5 h-3.5 inline"></i> All Rights Reserved. </p></footer>
-
-    <!-- Overlay Alert (去 Emoji 化) -->
-    <div id="custom-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-wine-900 border-2 border-gold-400 p-6 rounded-2xl max-w-sm w-full text-center space-y-4 shadow-2xl relative"><button onclick="closeModal()" class="absolute top-3 right-3 text-wine-300 hover:text-gold-300"><i data-lucide="x" class="w-5 h-5"></i></button><div id="modal-icon-container" class="w-16 h-16 bg-gold-400/20 text-gold-400 rounded-full flex items-center justify-center mx-auto text-2xl"><i data-lucide="bell" class="w-6 h-6"></i></div><h3 id="modal-title" class="text-xl font-bold text-gold-300">提示信息</h3><p id="modal-content" class="text-stone-300 text-sm leading-relaxed">重要的测试信息。</p><button onclick="closeModal()" class="bg-gold-500 hover:bg-gold-400 text-wine-950 font-bold px-6 py-2 rounded-xl text-sm transition-all w-full">我知道啦</button></div>
+      <button onclick="submitBlessing()" class="btn-gold">
+        <i data-lucide="send" class="w-4 h-4"></i> 挂上星光墙
+      </button>
     </div>
 
-    <!-- Firebase SDK maintained for cloud features (omitted in turn update) -->
-    <!-- [Firebase Initialization Script Module omitted here, unchanged from previous turn] -->
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs font-bold text-gold-400 uppercase tracking-wider">所有祝福</h3>
+        <span id="bl-count" class="text-xs text-wine-400">加载中…</span>
+      </div>
+      <div id="bl-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="text-center text-stone-600 py-10 text-xs col-span-2">正在同步…</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- UI Interactions & **NEW SPEECH LOGIC** -->
-    <script>
-        // Init Lucide Icons
-        lucide.createIcons();
+<!-- ══════════════════════════════════════════ STORIES ══ -->
+<section id="stories">
+  <div class="section-card space-y-6">
+    <div class="flex items-center gap-2 text-gold-400">
+      <i data-lucide="heart" class="w-6 h-6"></i>
+      <h2 class="text-xl font-bold">雅心为我做过的事</h2>
+    </div>
+    <p class="text-stone-400 text-sm leading-relaxed">她随手做的那些事，我们一直记得。</p>
 
-        // Audio synthesizer Context initialization for non-speech SFX (Maintenance from previous turn)
-        let audioCtx;
-        function getAudioContext() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            return audioCtx;
-        }
+    <div class="bg-wine-950/60 rounded-xl border border-wine-800/40 p-4 space-y-3">
+      <input id="st-author" class="inp" type="text" placeholder="你是谁？">
+      <textarea id="st-story" class="inp" rows="4" style="resize:none;"
+        placeholder="拔了四颗智齿，是她来接我、买了药、煮了粥……"></textarea>
+      <button onclick="submitStory()" class="btn-gold">
+        <i data-lucide="feather" class="w-4 h-4"></i> 记录这件事
+      </button>
+    </div>
 
-        // --- Maintain short SFX from previous turns ---
-        // Gavel Knock sfx
-        function playGavelSound() {
-            try {
-                const ctx = getAudioContext(); const knock = (time) => { const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.type = 'triangle'; osc.frequency.setValueAtTime(150, time); gain.gain.setValueAtTime(0.4, time); osc.connect(gain); gain.connect(ctx.destination); osc.start(time); osc.stop(time + 0.16); }; knock(ctx.currentTime); knock(ctx.currentTime + 0.25);
-            } catch (e) {}
-        }
-        // Glasses clink sfx
-        function playClinkSound() {
-            try {
-                const ctx = getAudioContext(); const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.type = 'sine'; osc.frequency.setValueAtTime(1600, ctx.currentTime); gain.gain.setValueAtTime(0.25, ctx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8); osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.85);
-            } catch (e) {}
-        }
-        // Avatar Click (Short Meow placeholder) maintained for legacy, though Real Vox Upload overrides it.
-        function playMeowSound() {
-            // New Addition: If TTS introduction is playing, cancel it when avatar is clicked for SFX
-            if (window.speechSynthesis && window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-                if (typeof updateSpeechUI === 'function') updateSpeechUI(false); 
-            }
-            // ... (rest of old playMeowSound logic maintained, or overridden by previous turn's RealVoxUpload logic) ...
-            console.log("播放短促喵喵声 SFX/上传原声。");
-            try {
-                // ... synthesized placeholder logic if Real Vox not uploaded ...
-                const ctx = getAudioContext(); const osc = ctx.createOscillator(); const gain = ctx.createGain(); osc.type = 'triangle'; osc.frequency.setValueAtTime(400, ctx.currentTime); osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15); osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.35); gain.gain.setValueAtTime(0.2, ctx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4); osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.45);
-            } catch (e) {}
-        }
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs font-bold text-gold-400 uppercase tracking-wider">大家记住的事</h3>
+        <span id="st-count" class="text-xs text-wine-400">加载中…</span>
+      </div>
+      <div id="st-list" class="space-y-3">
+        <div class="text-center text-stone-600 py-10 text-xs">正在同步…</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // --- **NEW: Poodle Noodles VOX INTRODUCTION SPEECH (TTS)** ---
-        // Setup Web Speech API variables globally
-        let synth = window.speechSynthesis;
-        let speechUtterance = null;
-        let isSpeakingIntro = false;
+<!-- ══════════════════════════════════════════ FOOD ══ -->
+<section id="food">
+  <div class="section-card space-y-6">
+    <div class="flex items-center gap-2 text-gold-400">
+      <i data-lucide="chef-hat" class="w-6 h-6"></i>
+      <h2 class="text-xl font-bold">雅心的招牌菜</h2>
+    </div>
+    <p class="text-stone-400 text-sm leading-relaxed">她做过的每一道菜，都是认真对待生活的证明。</p>
+    <div id="food-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-5"></div>
+  </div>
+</section>
 
-        function toggleIntroductionSpeech() {
-            // Get text directly from HTML content to ensure tone is accurate
-            const speechTextParagraph = document.getElementById('introduction-speech-text');
-            // Complete user provided text with HTML text
-            const userTextPrefix = "喵呜，欢迎来到本喵主持的秘密基地。。。";
-            const fullTextToSpeak = userTextPrefix + speechTextParagraph.innerText.trim();
+<!-- ══════════════════════════════════════════ BIRTHDAY CARD ══ -->
+<section id="card">
+  <div class="section-card space-y-6">
+    <div class="flex items-center gap-2 text-gold-400">
+      <i data-lucide="gift" class="w-6 h-6"></i>
+      <h2 class="text-xl font-bold">生日贺卡</h2>
+    </div>
+    <p class="text-stone-400 text-sm leading-relaxed">把大家的祝福合成到贺卡上，长按图片即可保存。</p>
 
-            // If already speaking, stop it
-            if (synth.speaking) {
-                synth.cancel();
-                isSpeakingIntro = false;
-                updateSpeechUI(false);
-                return;
-            }
+    <div class="flex flex-col items-center gap-4">
+      <canvas id="bday-canvas" width="900" height="900"
+        class="rounded-2xl shadow-2xl w-full max-w-md border border-gold-500/20"></canvas>
+      <button onclick="generateCard()" class="btn-gold max-w-md">
+        <i data-lucide="sparkles" class="w-4 h-4"></i> 一键生成贺卡
+      </button>
+      <a id="card-dl" class="hidden w-full max-w-md text-center bg-wine-800 hover:bg-wine-700 text-gold-300 font-bold py-3 rounded-xl text-sm border border-wine-700 transition-colors">
+        <i data-lucide="download" class="w-4 h-4 inline mr-1"></i> 下载贺卡
+      </a>
+    </div>
+  </div>
+</section>
 
-            // Create utterance
-            speechUtterance = new SpeechSynthesisUtterance(fullTextToSpeak);
-            speechUtterance.lang = 'zh-CN'; // Force Chinese language
+<!-- ══════════════════════════════════════════ PHOTOS ══ -->
+<section id="photos">
+  <div class="section-card space-y-6">
+    <div class="flex items-center gap-2 text-gold-400">
+      <i data-lucide="camera" class="w-6 h-6"></i>
+      <h2 class="text-xl font-bold">大合照 & 朋友相册</h2>
+    </div>
+    <p class="text-stone-400 text-sm leading-relaxed">当天一起拍张合影，或者上传你带来的照片，大家都能看到。</p>
 
-            // Adjust speech parameters for cat-like persona (adjust based on user feedback)
-            speechUtterance.pitch = 1.3; // Higher pitch for cute cat
-            speechUtterance.rate = 1.1;  // Slightly faster tempo
+    <div class="bg-wine-950/60 rounded-xl border border-wine-800/40 p-4 space-y-3">
+      <div class="relative bg-black rounded-xl overflow-hidden aspect-video flex items-center justify-center">
+        <video id="ph-video" autoplay playsinline muted class="w-full h-full object-cover hidden"></video>
+        <div id="ph-placeholder" class="text-center p-6 space-y-2">
+          <i data-lucide="camera-off" class="w-10 h-10 text-stone-600 mx-auto"></i>
+          <p class="text-stone-500 text-xs">点击「开启摄像头」开始自拍</p>
+        </div>
+        <div id="ph-countdown" class="hidden absolute inset-0 flex items-center justify-center text-white font-bold"
+          style="font-size:5rem;text-shadow:0 0 24px rgba(0,0,0,0.9);"></div>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <input id="ph-uploader" class="inp flex-1 min-w-32" type="text" placeholder="你的名字（可选）" style="width:auto">
+        <button id="ph-cam-btn" onclick="toggleCamera()" class="btn-outline">开启摄像头</button>
+        <button id="ph-shoot-btn" onclick="takePhoto()" disabled class="btn-gold" style="width:auto;padding:.5rem 1rem;">📸 拍！</button>
+        <label class="btn-outline cursor-pointer">
+          <i data-lucide="upload" class="w-3.5 h-3.5"></i> 上传照片
+          <input type="file" accept="image/*" class="hidden" onchange="uploadPhotoFile(event)">
+        </label>
+      </div>
+    </div>
 
-            // Setup callbacks to manage UI and state
-            speechUtterance.onstart = () => {
-                isSpeakingIntro = true;
-                updateSpeechUI(true);
-                // Optional: Play actual short meow sfx right before speaking
-                playMeowSound();
-                console.log("Speech synthesis started.");
-            };
-            speechUtterance.onend = () => {
-                isSpeakingIntro = false;
-                updateSpeechUI(false);
-                console.log("Speech synthesis ended naturally.");
-            };
-            speechUtterance.onerror = (e) => {
-                isSpeakingIntro = false;
-                updateSpeechUI(false);
-                console.error("Speech synthesis error:", e);
-                showModal("播音失败", "浏览器语言包未准备就绪或权限受限，请稍后重试！确保媒体音量已开启。", "⚠️");
-            };
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs font-bold text-gold-400 uppercase tracking-wider">相册</h3>
+        <span id="ph-count" class="text-xs text-wine-400">加载中…</span>
+      </div>
+      <div id="ph-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div class="text-center text-stone-600 py-10 text-xs col-span-full">正在同步…</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            // Speak the complete text
-            synth.speak(speechUtterance);
-        }
+<!-- ══════════════════════════════════════════ EASTER EGGS ══ -->
+<section id="eggs">
+  <div class="section-card space-y-12">
+    <div class="text-center">
+      <span class="text-gold-400/70 text-xs font-bold tracking-widest uppercase">✦ 彩蛋区 ✦</span>
+    </div>
 
-        // Update Button UI based on speaking state
-        function updateSpeechUI(speaking) {
-            const speechText = document.getElementById('speech-text');
-            const speechIcon = document.getElementById('speech-icon');
-            const playBtn = document.getElementById('btn-play-speech');
+    <!-- SLOT MACHINE -->
+    <div class="space-y-4">
+      <div class="flex items-center gap-2 text-gold-400">
+        <i data-lucide="zap" class="w-5 h-5"></i>
+        <h3 class="text-lg font-bold">喵星专利局</h3>
+      </div>
+      <div class="bg-wine-950/60 rounded-xl border border-gold-500/25 p-6 space-y-5">
+        <input id="slot-inventor" class="inp" type="text" placeholder="发明人姓名（填你的名字）">
+        <div class="flex justify-center gap-3 sm:gap-4">
+          <div id="reel-0" class="reel">🌶️</div>
+          <div id="reel-1" class="reel">🍷</div>
+          <div id="reel-2" class="reel">🐱</div>
+        </div>
+        <button id="slot-btn" onclick="spinSlots()" class="btn-gold">拉！</button>
+        <p id="slot-msg" class="text-center text-stone-500 text-xs min-h-5"></p>
+      </div>
+    </div>
 
-            if (speaking) {
-                speechText.innerText = "停止播放本喵介绍";
-                // square icon for stop
-                speechIcon.innerHTML = `<i data-lucide="square" class="w-4 h-4 mr-1 inline"></i>`; 
-                playBtn.classList.remove('bg-wine-800');
-                // Change color to stop indicator
-                playBtn.classList.add('bg-red-900', 'animate-pulse'); 
-            } else {
-                speechText.innerText = "播放喵喵原声介绍";
-                // Revert to play icon
-                speechIcon.innerHTML = `<i data-lucide="play" class="w-4 h-4 mr-1 inline"></i>`; 
-                playBtn.classList.remove('bg-red-900', 'animate-pulse');
-                playBtn.classList.add('bg-wine-800'); 
-            }
-            // Re-render new icons
-            lucide.createIcons(); 
-        }
+    <!-- COCKTAIL -->
+    <div class="space-y-4">
+      <div class="flex items-center gap-2 text-gold-400">
+        <i data-lucide="wine" class="w-5 h-5"></i>
+        <h3 class="text-lg font-bold">深夜小酒馆</h3>
+      </div>
+      <div class="bg-wine-950/60 rounded-xl border border-purple-800/35 p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div class="space-y-2">
+            <p class="text-xs text-stone-400 mb-3">选最多 3 种配料：</p>
+            <button onclick="addIngredient(this,'辣椒')" data-ing="辣椒"
+              class="ing-btn w-full flex items-center justify-between p-3 bg-red-950/40 hover:bg-red-900/50 border border-red-800/40 rounded-xl text-left text-sm transition-all">
+              <span>🌶️ 广西爆烈辣椒</span><span class="text-[10px] bg-red-800 text-white px-2 py-0.5 rounded-full">+ 辛辣</span>
+            </button>
+            <button onclick="addIngredient(this,'红酒')" data-ing="红酒"
+              class="ing-btn w-full flex items-center justify-between p-3 bg-purple-950/40 hover:bg-purple-900/50 border border-purple-800/40 rounded-xl text-left text-sm transition-all">
+              <span>🍷 勃艮第典雅红酒</span><span class="text-[10px] bg-purple-800 text-white px-2 py-0.5 rounded-full">+ 微醺</span>
+            </button>
+            <button onclick="addIngredient(this,'厨艺')" data-ing="厨艺"
+              class="ing-btn w-full flex items-center justify-between p-3 bg-amber-950/40 hover:bg-amber-900/50 border border-amber-800/40 rounded-xl text-left text-sm transition-all">
+              <span>🔥 神级厨艺魔法</span><span class="text-[10px] bg-amber-800 text-white px-2 py-0.5 rounded-full">+ 温暖</span>
+            </button>
+            <button onclick="addIngredient(this,'好运')" data-ing="好运"
+              class="ing-btn w-full flex items-center justify-between p-3 bg-teal-950/40 hover:bg-teal-900/50 border border-teal-800/40 rounded-xl text-left text-sm transition-all">
+              <span>⭐ 绝佳 Offer 好运</span><span class="text-[10px] bg-teal-800 text-white px-2 py-0.5 rounded-full">+ 运气</span>
+            </button>
+            <button onclick="addIngredient(this,'踩奶')" data-ing="踩奶"
+              class="ing-btn w-full flex items-center justify-between p-3 bg-orange-950/40 hover:bg-orange-900/50 border border-orange-800/40 rounded-xl text-left text-sm transition-all">
+              <span>🐾 泡面的踩奶</span><span class="text-[10px] bg-orange-800 text-white px-2 py-0.5 rounded-full">+ 疗愈</span>
+            </button>
+          </div>
 
-        // --- Non-cloud interactions maintain ---
-        function toggleCollapse(elementId) { const el = document.getElementById(elementId); el.classList.toggle('hidden'); lucide.createIcons(); }
-        function switchTab(tabId) {
-            // New Addition: Stop TTS if it's active when switching tabs
-            if (window.speechSynthesis && window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-                if (typeof updateSpeechUI === 'function') updateSpeechUI(false); 
-            }
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.className = "tab-btn px-3 py-2 rounded-lg text-xs font-semibold transition-all text-wine-300 hover:bg-wine-800/40 touch-manipulation");
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-            document.getElementById(`btn-${tabId}`).className = "tab-btn px-3 py-2 rounded-lg text-xs font-semibold transition-all bg-gold-500 text-wine-950 shadow-lg touch-manipulation";
-            lucide.createIcons();
-            // Optional: Meow on tab switch
-            playMeowSound();
-        }
-        function closeModal() { document.getElementById('custom-modal').classList.add('hidden'); }
-        function showModal(t, c, i) { document.getElementById('modal-title').innerText = t; document.getElementById('modal-content').innerText = c; document.getElementById('modal-icon-container').innerHTML = i; document.getElementById('custom-modal').classList.remove('hidden'); lucide.createIcons(); }
-        
-        // ... Existing mock functions maintain (CCTV, Gavel, Cocktail, PhotoUpload omitted as they are unchanged from previous turns) ...
-        function knockGavel() { showModal("生效！", "快乐、 Offer、红酒全有！", "<i data-lucide='scale' class='w-6 h-6'></i>"); playGavelSound(); }
-        function generatePatentCertificate() { document.getElementById('certificate-container').classList.remove('hidden'); setTimeout(()=>{document.getElementById('certificate-container').classList.remove('scale-95','opacity-0');},50); playMeowSound();}
-    </script>
+          <div class="flex flex-col items-center gap-3">
+            <div class="relative w-32 h-44">
+              <div id="cocktail-fill" class="absolute bottom-10 left-1/2 -translate-x-1/2 w-[4.2rem] rounded-b-lg transition-all duration-700 ease-in-out"
+                style="height:0;background:linear-gradient(to top,#8b0000,#cc2244);"></div>
+              <svg viewBox="0 0 100 130" class="w-full h-full absolute inset-0 drop-shadow-lg">
+                <path d="M20,10 L35,60 L65,60 L80,10 Z" fill="none" stroke="#c8a84b" stroke-width="2.5" stroke-linejoin="round"/>
+                <line x1="50" y1="60" x2="50" y2="100" stroke="#c8a84b" stroke-width="2.5"/>
+                <ellipse cx="50" cy="100" rx="20" ry="5" fill="none" stroke="#c8a84b" stroke-width="2.5"/>
+              </svg>
+            </div>
+            <div id="cocktail-selected" class="text-xs text-stone-500 text-center min-h-4 px-2"></div>
+            <button id="mix-btn" onclick="mixCocktail()" disabled
+              class="btn-gold" style="max-width:180px;padding:.6rem 1rem;">碰撞！</button>
+            <button onclick="clearGlass()"
+              class="text-xs text-stone-500 hover:text-stone-300 transition-colors py-1">倒空重调</button>
+          </div>
+        </div>
+
+        <div id="cocktail-result" class="hidden mt-6 bg-gradient-to-r from-wine-900/80 to-purple-950/80 border border-gold-400/40 p-5 rounded-xl text-center space-y-2">
+          <div class="font-hw text-xl text-gold-300" id="cocktail-toast-text"></div>
+          <p class="text-stone-300 text-sm leading-relaxed" id="cocktail-desc-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 八戒 -->
+    <div>
+      <button onclick="openBajie()"
+        class="w-full bg-gradient-to-r from-wine-900 to-purple-950 hover:from-wine-800 hover:to-purple-900 border border-purple-700/40 text-stone-200 font-semibold py-5 px-6 rounded-xl text-sm leading-relaxed transition-all text-left shadow-lg">
+        听说这首歌能把人的老公都洗脑，我们不信邪，点点看 🐷
+      </button>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer class="max-w-2xl mx-auto text-center text-xs text-wine-400 border-t border-wine-800/30 pt-8 pb-10 px-4 mt-8 space-y-1">
+  <p class="text-wine-300 font-hw text-base">祝雅心生日快乐！天天开心！</p>
+  <p class="text-wine-600">泡面专利事务所联合开发 🐾 All Rights Reserved.</p>
+</footer>
+
+<!-- ══ TOAST ══ -->
+<div id="toast"><span>🐱</span><span id="toast-msg"></span></div>
+
+<!-- ══ CERTIFICATE MODAL ══ -->
+<div id="cert-modal" class="modal-wrap">
+  <div class="bg-[#f5ebd6] text-stone-900 rounded-xl shadow-2xl border-8 border-[#bd8e3a] max-w-sm w-full relative p-6 sm:p-10">
+    <button onclick="closeCert()" class="absolute top-3 right-3 text-stone-400 hover:text-stone-700 text-xl leading-none">✕</button>
+    <div class="absolute inset-2 border border-dashed border-[#bd8e3a]/50 pointer-events-none rounded-md"></div>
+    <div class="text-center space-y-4 relative">
+      <div class="text-[10px] tracking-widest text-[#bd8e3a] font-bold uppercase">No. MEOW-8888888</div>
+      <h2 class="text-xl sm:text-2xl font-bold tracking-wider text-[#771a2b] font-serif">喵星特许专利证书</h2>
+      <p class="text-[9px] tracking-widest text-stone-500 border-b border-[#bd8e3a]/40 pb-3 uppercase">Patent · Poodle Noodles Intellectual Property</p>
+      <div class="text-left space-y-3 text-sm font-serif">
+        <div><span class="text-[10px] text-[#bd8e3a] font-bold font-sans block uppercase tracking-wider">发明人</span>
+          <span id="cert-inventor-name" class="font-bold text-base text-stone-800"></span></div>
+        <div><span class="text-[10px] text-[#bd8e3a] font-bold font-sans block uppercase tracking-wider">荣誉称号</span>
+          <span id="cert-title-text" class="font-bold text-sm text-stone-700 leading-snug block mt-0.5"></span></div>
+        <div><span class="text-[10px] text-[#bd8e3a] font-bold font-sans block uppercase tracking-wider">颁发机构</span>
+          <span class="text-stone-600">泡面专利事务所 · 喵星局</span></div>
+        <div class="flex justify-between items-end pt-3 border-t border-[#bd8e3a]/30">
+          <div class="text-xs text-stone-500">泡面 <span class="text-base">🐾</span><br><span class="text-[9px]">2026年6月26日</span></div>
+          <div class="w-14 h-14 border-4 border-[#771a2b] rounded-full flex flex-col items-center justify-center -rotate-12 opacity-75 bg-orange-50">
+            <span class="text-[8px] font-bold text-[#771a2b] leading-tight">喵星局</span>
+            <span class="text-[8px] font-bold text-[#771a2b] leading-tight">准予授权</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BAJIE MODAL ══ -->
+<div id="bajie-modal" class="modal-wrap">
+  <div class="bg-wine-950 border border-purple-700/40 rounded-2xl max-w-lg w-full p-6 space-y-4 relative shadow-2xl">
+    <button onclick="closeBajie()" class="absolute top-4 right-4 text-stone-500 hover:text-gold-300 transition-colors text-xl leading-none">✕</button>
+    <p class="text-stone-300 text-sm leading-relaxed border-l-2 border-gold-500 pl-4">
+      你讲过的故事——你的闺蜜爱人把《八戒》循环播放，循环到她老公也会唱了。<br>
+      <span class="text-gold-400 font-semibold mt-1 block">我们记住了。</span>
+    </p>
+    <div class="aspect-video w-full rounded-xl overflow-hidden bg-black">
+      <iframe id="bajie-iframe" width="100%" height="100%"
+        src="" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen class="w-full h-full"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ SCRIPTS ══ -->
+<script>
+const { createClient } = supabase;
+const sb = createClient(
+  'https://xovrhnkclehvkorbgtoy.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvdnJobmtjbGVodmtvcmJndG95Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxODY1NDcsImV4cCI6MjA5Nzc2MjU0N30.77Mlyv8JQ7TyJePyXInGk7mgyYmjpT_ptxriRJ1vOfg'
+);
+</script>
+
+<script>
+lucide.createIcons();
+
+// ── TOAST ───────────────────────────────────────────────────────
+let _toastTimer;
+function showToast(msg, ms = 3800) {
+  document.getElementById('toast-msg').textContent = msg;
+  const el = document.getElementById('toast');
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), ms);
+}
+
+// ── MEOW ────────────────────────────────────────────────────────
+let _meowAudio = null;
+function meowSynth() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(420, ctx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.15);
+    o.frequency.exponentialRampToValueAtTime(620, ctx.currentTime + 0.38);
+    g.gain.setValueAtTime(0.22, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.48);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(); o.stop(ctx.currentTime + 0.52);
+  } catch(e) {}
+}
+function playMeow() {
+  if (_meowAudio) {
+    _meowAudio.currentTime = 0;
+    _meowAudio.play().catch(meowSynth);
+    return;
+  }
+  const a = new Audio('assets/meow.mp3');
+  a.oncanplaythrough = () => { _meowAudio = a; a.play().catch(meowSynth); };
+  a.onerror = meowSynth;
+  a.load();
+}
+
+// ── HERO COUNTDOWN ───────────────────────────────────────────────
+(function() {
+  const el = document.getElementById('hero-date');
+  const bd = new Date('2026-06-26T00:00:00');
+  function tick() {
+    const now = new Date(), diff = bd - now;
+    if (diff <= 0) {
+      el.textContent = '今天就是你的日子！🎂';
+      el.className = 'text-gold-400 font-bold text-lg mb-12 tracking-wide';
+    } else {
+      const d = Math.floor(diff/86400000);
+      const h = Math.floor((diff%86400000)/3600000);
+      const m = Math.floor((diff%3600000)/60000);
+      const s = Math.floor((diff%60000)/1000);
+      el.textContent = `距离雅心生日还有 ${d} 天 ${h} 小时 ${m} 分 ${s} 秒`;
+      setTimeout(tick, 1000);
+    }
+  }
+  tick();
+})();
+
+// ── LIGHTBOX ─────────────────────────────────────────────────────
+function openLightbox(url) {
+  const lb = document.createElement('div');
+  lb.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:2000;display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:1rem;';
+  lb.innerHTML = `<img src="${url}" style="max-width:90vw;max-height:90vh;border-radius:12px;object-fit:contain;box-shadow:0 0 60px rgba(0,0,0,0.8);">`;
+  lb.onclick = () => document.body.removeChild(lb);
+  document.body.appendChild(lb);
+}
+
+// ════════════════════════════════════════════════════════════════
+// BLESSING WALL
+// ════════════════════════════════════════════════════════════════
+let blRecorder = null, blChunks = [], blBlob = null, blRecording = false, blRecTimer = null;
+let blImgFile = null;
+
+function toggleBlessingRecording() {
+  if (!blRecording) {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+      blChunks = [];
+      blRecorder = new MediaRecorder(stream);
+      blRecorder.ondataavailable = e => blChunks.push(e.data);
+      blRecorder.onstop = () => {
+        blBlob = new Blob(blChunks, { type: 'audio/webm' });
+        stream.getTracks().forEach(t => t.stop());
+        document.getElementById('bl-play-btn').disabled = false;
+      };
+      blRecorder.start();
+      blRecording = true;
+      document.getElementById('bl-rec-txt').textContent = '停止录音';
+      document.getElementById('bl-rec-dot').style.animation = 'ping 1s cubic-bezier(0,0,0.2,1) infinite';
+      blRecTimer = setTimeout(() => { if (blRecording) toggleBlessingRecording(); }, 30000);
+    }).catch(() => showToast('无法访问麦克风，请检查浏览器权限'));
+  } else {
+    clearTimeout(blRecTimer);
+    blRecorder.stop();
+    blRecording = false;
+    document.getElementById('bl-rec-txt').textContent = '重新录音';
+    document.getElementById('bl-rec-dot').style.animation = '';
+  }
+}
+
+function previewBlessingAudio() {
+  if (blBlob) new Audio(URL.createObjectURL(blBlob)).play();
+}
+
+function onBlessingImageSelected(e) {
+  blImgFile = e.target.files[0] || null;
+  document.getElementById('bl-img-name').textContent = blImgFile ? blImgFile.name : '';
+}
+
+async function submitBlessing() {
+  const author = document.getElementById('bl-author').value.trim();
+  const text   = document.getElementById('bl-text').value.trim();
+  if (!author) { showToast('请先填写你的名字喵～'); return; }
+  if (!text && !blBlob && !blImgFile) { showToast('写点什么或录段音吧！'); return; }
+
+  const btn = document.querySelector('[onclick="submitBlessing()"]');
+  btn.disabled = true; btn.textContent = '提交中…';
+
+  try {
+    const entry = { author, text: text || null };
+
+    if (blBlob) {
+      const path = `blessings/audio/${Date.now()}_${author}.webm`;
+      const { error: upErr } = await sb.storage.from('uploads').upload(path, blBlob, { contentType: 'audio/webm' });
+      if (upErr) throw upErr;
+      const { data: { publicUrl } } = sb.storage.from('uploads').getPublicUrl(path);
+      entry.audio_url = publicUrl;
+    }
+    if (blImgFile) {
+      const path = `blessings/images/${Date.now()}_${blImgFile.name}`;
+      const { error: upErr } = await sb.storage.from('uploads').upload(path, blImgFile, { contentType: blImgFile.type });
+      if (upErr) throw upErr;
+      const { data: { publicUrl } } = sb.storage.from('uploads').getPublicUrl(path);
+      entry.image_url = publicUrl;
+    }
+
+    const { error } = await sb.from('blessings').insert(entry);
+    if (error) throw error;
+
+    document.getElementById('bl-author').value = '';
+    document.getElementById('bl-text').value   = '';
+    document.getElementById('bl-img-name').textContent = '';
+    blBlob = null; blImgFile = null;
+    document.getElementById('bl-play-btn').disabled = true;
+    document.getElementById('bl-rec-txt').textContent = '录音祝福';
+    showToast('本喵收到了！已经为你挂上星光墙喵～');
+    playMeow();
+  } catch(err) {
+    console.error(err);
+    showToast('提交失败：' + (err.message || '请检查网络'));
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> 挂上星光墙';
+  }
+}
+
+function renderBlessingCard(d) {
+  const time = new Date(d.created_at).toLocaleDateString('zh-CN', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+  return `<div class="content-card space-y-2 bg-wine-950/60 border border-wine-800/35 rounded-xl p-4">
+    <div class="flex items-center justify-between">
+      <span class="text-gold-300 font-semibold text-sm">${d.author}</span>
+      <span class="text-stone-600 text-[10px]">${time}</span>
+    </div>
+    ${d.text ? `<p class="text-stone-300 text-sm leading-relaxed">${d.text}</p>` : ''}
+    ${d.audio_url ? `<audio controls src="${d.audio_url}" class="w-full mt-1" style="height:32px;accent-color:#c8a84b;"></audio>` : ''}
+    ${d.image_url ? `<img src="${d.image_url}" class="rounded-lg max-h-48 object-cover w-full cursor-pointer" onclick="openLightbox('${d.image_url}')">` : ''}
+  </div>`;
+}
+
+async function loadBlessings() {
+  const { data, error } = await sb.from('blessings').select('*').order('created_at', { ascending: false });
+  const list  = document.getElementById('bl-list');
+  const count = document.getElementById('bl-count');
+  if (error || !data?.length) {
+    list.innerHTML = '<div class="text-center text-stone-600 py-10 text-xs col-span-2">还没有祝福，来第一个留言吧！</div>';
+    count.textContent = '0 条祝福';
+    return;
+  }
+  count.textContent = `${data.length} 条祝福`;
+  list.innerHTML = data.map(renderBlessingCard).join('');
+}
+loadBlessings();
+sb.channel('bl').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'blessings' }, loadBlessings).subscribe();
+
+// ════════════════════════════════════════════════════════════════
+// STORIES WALL
+// ════════════════════════════════════════════════════════════════
+async function submitStory() {
+  const author = document.getElementById('st-author').value.trim();
+  const story  = document.getElementById('st-story').value.trim();
+  if (!author || !story) { showToast('名字和故事都要填喵～'); return; }
+
+  const btn = document.querySelector('[onclick="submitStory()"]');
+  btn.disabled = true; btn.textContent = '提交中…';
+  try {
+    const { error } = await sb.from('stories').insert({ author, story });
+    if (error) throw error;
+    document.getElementById('st-author').value = '';
+    document.getElementById('st-story').value  = '';
+    showToast('这件事本喵帮你记住了，雅心一定不知道还有人记得…');
+    playMeow();
+  } catch(err) {
+    showToast('提交失败：' + (err.message || '请检查网络'));
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg> 记录这件事';
+  }
+}
+
+async function loadStories() {
+  const { data, error } = await sb.from('stories').select('*').order('created_at', { ascending: false });
+  const list  = document.getElementById('st-list');
+  const count = document.getElementById('st-count');
+  if (error || !data?.length) {
+    list.innerHTML = '<div class="text-center text-stone-600 py-10 text-xs">还没有故事，来第一个写吧！</div>';
+    count.textContent = '0 个故事';
+    return;
+  }
+  count.textContent = `${data.length} 个故事`;
+  list.innerHTML = data.map(d => `
+    <div class="bg-wine-950/60 border border-wine-800/35 rounded-xl p-5 space-y-2">
+      <div class="text-gold-300 font-semibold text-sm">${d.author}</div>
+      <p class="text-stone-300 text-sm leading-relaxed">${d.story}</p>
+      <div class="text-stone-600 text-[10px]">${new Date(d.created_at).toLocaleDateString('zh-CN')}</div>
+    </div>`).join('');
+}
+loadStories();
+sb.channel('st').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'stories' }, loadStories).subscribe();
+
+// ════════════════════════════════════════════════════════════════
+// FOOD GALLERY
+// ════════════════════════════════════════════════════════════════
+// Add your food photos here once you upload them to assets/food/
+const FOOD_ITEMS = [
+  // { src: 'assets/food/dish1.jpg', name: '螺蛳粉', caption: '正宗广西味道' },
+];
+
+(function renderFood() {
+  const grid = document.getElementById('food-grid');
+  if (!FOOD_ITEMS.length) {
+    grid.innerHTML = `<div class="col-span-full text-center py-14 space-y-3">
+      <div class="text-5xl">🍽️</div>
+      <p class="text-stone-500 text-sm">照片即将到来…</p>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = FOOD_ITEMS.map((item, i) => {
+    const rot = (i % 2 === 0 ? -1.5 : 1.2) + (i % 3 === 0 ? 0.5 : 0);
+    return `<div class="polaroid" style="transform:rotate(${rot}deg)" onclick="openLightbox('${item.src}')">
+      <img src="${item.src}" alt="${item.name}"
+        class="w-full aspect-square object-cover bg-stone-200"
+        onerror="this.closest('.polaroid').remove()">
+      <div class="mt-2 text-center font-hw text-stone-700 text-sm">${item.name || ''}</div>
+      ${item.caption ? `<div class="text-center text-stone-400 text-[10px] mt-0.5">${item.caption}</div>` : ''}
+    </div>`;
+  }).join('');
+})();
+
+// ════════════════════════════════════════════════════════════════
+// BIRTHDAY CARD (Canvas)
+// ════════════════════════════════════════════════════════════════
+async function generateCard() {
+  const canvas = document.getElementById('bday-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // 1. Background image with dark overlay
+  await new Promise(resolve => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, W, H);
+      ctx.fillStyle = 'rgba(18,2,6,0.72)';
+      ctx.fillRect(0, 0, W, H);
+      resolve();
+    };
+    img.onerror = () => {
+      const g = ctx.createLinearGradient(0,0,W,H);
+      g.addColorStop(0,'#3d0f1f'); g.addColorStop(1,'#1a0510');
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,H); resolve();
+    };
+    img.src = 'assets/red-chili.png?' + Date.now();
+  });
+
+  // 2. Ensure fonts loaded
+  await Promise.all([
+    document.fonts.load('72px "Ma Shan Zheng"'),
+    document.fonts.load('28px "Noto Sans SC"'),
+  ]);
+
+  // 3. Title
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#c8a84b';
+  ctx.font = '90px "Ma Shan Zheng"';
+  ctx.fillText('生日快乐', W/2, 160);
+  ctx.font = '70px "Ma Shan Zheng"';
+  ctx.fillStyle = '#e0c090';
+  ctx.fillText('雅心', W/2, 255);
+
+  // 4. Divider
+  ctx.strokeStyle = 'rgba(200,168,75,0.35)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(80,295); ctx.lineTo(W-80,295); ctx.stroke();
+
+  // 5. Blessings
+  const { data: blessings } = await sb.from('blessings').select('author,text').order('created_at').limit(8);
+  ctx.textAlign = 'left';
+  let y = 348;
+  if (blessings?.length) {
+    for (const d of blessings) {
+      const txt = (d.text || '').slice(0, 22) + ((d.text || '').length > 22 ? '…' : '');
+      ctx.font = 'bold 30px "Noto Sans SC"';
+      ctx.fillStyle = '#c8a84b';
+      ctx.fillText(d.author, 80, y);
+      if (txt) {
+        ctx.font = '26px "Noto Sans SC"';
+        ctx.fillStyle = 'rgba(224,192,144,0.85)';
+        ctx.fillText(txt, 80, y + 36);
+        y += 88;
+      } else { y += 52; }
+      if (y > H - 200) break;
+    }
+  } else {
+    ctx.font = '28px "Noto Sans SC"';
+    ctx.fillStyle = 'rgba(200,168,75,0.5)';
+    ctx.textAlign = 'center';
+    ctx.fillText('（祝福墙留言后会出现在这里）', W/2, y);
+  }
+
+  // 6. Paw stamp
+  ctx.save();
+  ctx.translate(W-110, H-110);
+  ctx.rotate(-0.28);
+  ctx.strokeStyle = 'rgba(119,26,43,0.75)';
+  ctx.lineWidth = 3;
+  ctx.fillStyle = 'rgba(119,26,43,0.12)';
+  ctx.beginPath(); ctx.arc(0,0,50,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  await document.fonts.load('14px "Noto Sans SC"');
+  ctx.font = 'bold 14px "Noto Sans SC"';
+  ctx.fillStyle = 'rgba(119,26,43,0.9)';
+  ctx.textAlign = 'center';
+  ctx.fillText('泡面认证', 0, -8);
+  ctx.font = '22px serif';
+  ctx.fillText('🐾', 0, 18);
+  ctx.restore();
+
+  // 7. Date
+  ctx.textAlign = 'center';
+  ctx.font = '24px "Noto Sans SC"';
+  ctx.fillStyle = 'rgba(200,168,75,0.45)';
+  ctx.fillText('2026 · 06 · 26', W/2, H-38);
+
+  // 8. Download link
+  const dl = document.getElementById('card-dl');
+  dl.href = canvas.toDataURL('image/png');
+  dl.download = '雅心生日贺卡.png';
+  dl.classList.remove('hidden');
+  showToast('本喵盖章认证！这是全宇宙最用心的贺卡。');
+  playMeow();
+}
+
+// ════════════════════════════════════════════════════════════════
+// GROUP SELFIE & PHOTOS
+// ════════════════════════════════════════════════════════════════
+let phStream = null, phCamActive = false;
+
+async function toggleCamera() {
+  const btn = document.getElementById('ph-cam-btn');
+  const vid  = document.getElementById('ph-video');
+  const ph   = document.getElementById('ph-placeholder');
+  const sb2  = document.getElementById('ph-shoot-btn');
+
+  if (!phCamActive) {
+    try {
+      phStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+      vid.srcObject = phStream;
+      vid.classList.remove('hidden'); ph.classList.add('hidden');
+      btn.textContent = '关闭摄像头';
+      sb2.disabled = false;
+      phCamActive = true;
+    } catch(e) { showToast('无法开启摄像头，请检查浏览器权限'); }
+  } else {
+    phStream?.getTracks().forEach(t => t.stop());
+    vid.classList.add('hidden'); ph.classList.remove('hidden');
+    btn.textContent = '开启摄像头';
+    sb2.disabled = true;
+    phCamActive = false;
+  }
+}
+
+function takePhoto() {
+  const cd  = document.getElementById('ph-countdown');
+  const vid = document.getElementById('ph-video');
+  let n = 3;
+  cd.textContent = n; cd.classList.remove('hidden');
+  const iv = setInterval(async () => {
+    n--;
+    if (n > 0) { cd.textContent = n; return; }
+    clearInterval(iv); cd.classList.add('hidden');
+    const c = document.createElement('canvas');
+    c.width = vid.videoWidth; c.height = vid.videoHeight;
+    c.getContext('2d').drawImage(vid, 0, 0);
+    c.toBlob(blob => uploadPhotoBlob(blob, 'selfie.jpg'), 'image/jpeg', 0.92);
+  }, 1000);
+}
+
+async function uploadPhotoFile(e) {
+  const file = e.target.files[0]; if (!file) return;
+  await uploadPhotoBlob(file, file.name);
+  e.target.value = '';
+}
+
+async function uploadPhotoBlob(blob, name) {
+  try {
+    const uploader = document.getElementById('ph-uploader').value.trim() || '朋友';
+    const path = `photos/${Date.now()}_${name}`;
+    const { error: upErr } = await sb.storage.from('uploads').upload(path, blob, { contentType: blob.type || 'image/jpeg' });
+    if (upErr) throw upErr;
+    const { data: { publicUrl } } = sb.storage.from('uploads').getPublicUrl(path);
+    const { error } = await sb.from('photos').insert({ url: publicUrl, uploader });
+    if (error) throw error;
+    showToast('喵！本喵已经存档，永久保存。');
+    playMeow();
+  } catch(err) {
+    showToast('上传失败：' + (err.message || '请检查网络'));
+    console.error(err);
+  }
+}
+
+async function loadPhotos() {
+  const { data } = await sb.from('photos').select('*').order('created_at', { ascending: false });
+  const grid  = document.getElementById('ph-grid');
+  const count = document.getElementById('ph-count');
+  if (!data?.length) {
+    grid.innerHTML = '<div class="text-center text-stone-600 py-10 text-xs col-span-full">还没有照片，快来拍第一张！</div>';
+    count.textContent = '0 张照片';
+    return;
+  }
+  count.textContent = `${data.length} 张照片`;
+  grid.innerHTML = data.map(d => `
+    <div class="relative rounded-xl overflow-hidden aspect-square bg-stone-900 cursor-pointer group"
+         onclick="openLightbox('${d.url}')">
+      <img src="${d.url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out">
+      ${d.uploader ? `<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-2 text-white text-[10px] font-semibold">${d.uploader}</div>` : ''}
+    </div>`).join('');
+}
+loadPhotos();
+sb.channel('ph').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'photos' }, loadPhotos).subscribe();
+
+// ════════════════════════════════════════════════════════════════
+// SLOT MACHINE
+// ════════════════════════════════════════════════════════════════
+const REEL_ICONS = ['🌶️','🍷','🐱','🎂','⚖️','📜'];
+const WIN_TEXT = {
+  '🐱': '恭喜！获得泡面亲自颁发的喵星最高荣誉！',
+  '🌶️': '广西辣椒免疫认证，正式生效！',
+  '🍷': '勃艮第红酒鉴赏家资质，全球通用！',
+  '🎂': '甜蜜快乐守护专利，永久有效！',
+  '⚖️': '正义律师特许认证，立即起效！',
+  '📜': '传奇厨艺大师专利，世界认可！',
+};
+let _slotBusy = false;
+
+function spinSlots() {
+  if (_slotBusy) return;
+  _slotBusy = true;
+  const btn = document.getElementById('slot-btn');
+  btn.disabled = true;
+  document.getElementById('slot-msg').textContent = '';
+  const results = new Array(3);
+  let done = 0;
+  [0,1,2].forEach((i) => {
+    const reel = document.getElementById(`reel-${i}`);
+    const ticks = 14 + i * 7;
+    let t = 0;
+    const iv = setInterval(() => {
+      reel.textContent = REEL_ICONS[Math.floor(Math.random() * REEL_ICONS.length)];
+      if (++t >= ticks) {
+        clearInterval(iv);
+        results[i] = REEL_ICONS[Math.floor(Math.random() * REEL_ICONS.length)];
+        reel.textContent = results[i];
+        if (++done === 3) onSlotDone(results);
+      }
+    }, 80);
+  });
+}
+
+function onSlotDone(results) {
+  _slotBusy = false;
+  const btn = document.getElementById('slot-btn');
+  btn.disabled = false; btn.textContent = '再拉一次！';
+  const msg = document.getElementById('slot-msg');
+  const win = results[0] === results[1] && results[1] === results[2];
+  if (win) {
+    playGavelSound();
+    const label = WIN_TEXT[results[0]] || '中奖了！';
+    msg.textContent = label;
+    msg.className = 'text-center text-gold-400 text-xs font-bold min-h-5';
+    const inventor = document.getElementById('slot-inventor').value.trim() || '神秘发明家';
+    document.getElementById('cert-inventor-name').textContent = inventor;
+    document.getElementById('cert-title-text').textContent = label;
+    document.getElementById('cert-modal').classList.add('open');
+  } else {
+    msg.textContent = '差点！再来一次～';
+    msg.className = 'text-center text-stone-500 text-xs min-h-5';
+  }
+}
+function closeCert() { document.getElementById('cert-modal').classList.remove('open'); }
+
+function playGavelSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.22].forEach(t => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type='triangle'; o.frequency.value=155;
+      g.gain.setValueAtTime(0.4, ctx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+t+0.2);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+0.22);
+    });
+  } catch(e) {}
+}
+
+// ════════════════════════════════════════════════════════════════
+// COCKTAIL
+// ════════════════════════════════════════════════════════════════
+const COCKTAIL_RECIPES = {
+  '辣椒,红酒':  { toast:'"热烈而深邃，像你从不妥协的底气。"',  desc:'广西辣椒与勃艮第的碰撞，火热与优雅共存，一口下去全世界都给你让路。' },
+  '辣椒,厨艺':  { toast:'"烟火气是最温柔的力量。"',            desc:'辣椒的热烈遇上厨艺的温度，每一道菜都是无声的爱。' },
+  '辣椒,好运':  { toast:'"热辣的好运，挡都挡不住。"',          desc:'最烈的辣与最旺的运同时涌来，Offer 已在路上。' },
+  '辣椒,踩奶':  { toast:'"刚烈的外表，柔软的内心。"',          desc:'辣椒的热烈加上泡面踩奶的治愈，反差萌就是你。' },
+  '红酒,厨艺':  { toast:'"最好的晚餐，是有你在的那一顿。"',    desc:'红酒的微醺与神级厨艺的温暖交融，朋友们永远记得那一桌菜。' },
+  '红酒,好运':  { toast:'"举杯，为你即将到来的好消息。"',      desc:'一杯下去，Offer 的邮件通知声响起。' },
+  '红酒,踩奶':  { toast:'"深夜，有酒，有猫，足矣。"',          desc:'泡面踩着你的腿，红酒在手，这是最好的深夜。' },
+  '厨艺,好运':  { toast:'"你做的每一道菜都是锦鲤。"',          desc:'好运藏在厨艺里，吃了你做的菜，运气都会变好。' },
+  '厨艺,踩奶':  { toast:'"泡面说：这碗汤最好喝。"',            desc:'泡面踩着你做饭，这是全宇宙最温暖的厨房。' },
+  '好运,踩奶':  { toast:'"泡面宣布：今天运气爆棚。"',          desc:'泡面踩奶加持，好运 buff 叠满，今天出门捡到 Offer。' },
+};
+const ING_COLORS = { '辣椒':'#7f1d1d','红酒':'#4c0080','厨艺':'#78350f','好运':'#064e3b','踩奶':'#7c2d12' };
+let selectedIngs = [];
+
+function addIngredient(btn, name) {
+  if (selectedIngs.includes(name)) {
+    selectedIngs = selectedIngs.filter(i => i !== name);
+    btn.classList.remove('ing-btn-on');
+    btn.style.boxShadow = '';
+  } else if (selectedIngs.length < 3) {
+    selectedIngs.push(name);
+    btn.style.boxShadow = '0 0 0 2px #bd8e3a';
+  } else {
+    showToast('最多选 3 种配料喵！'); return;
+  }
+  updateGlass();
+}
+
+function updateGlass() {
+  const pct  = selectedIngs.length / 3;
+  const fill = document.getElementById('cocktail-fill');
+  fill.style.height = `${pct * 72}px`;
+  const c = ING_COLORS[selectedIngs[selectedIngs.length-1]] || '#8b0000';
+  fill.style.background = `linear-gradient(to top, ${c}, ${c}88)`;
+  document.getElementById('cocktail-selected').textContent = selectedIngs.join(' + ') || '';
+  document.getElementById('mix-btn').disabled = selectedIngs.length < 2;
+  document.getElementById('cocktail-result').classList.add('hidden');
+}
+
+function clearGlass() {
+  selectedIngs = [];
+  document.querySelectorAll('.ing-btn').forEach(b => { b.style.boxShadow=''; });
+  updateGlass();
+}
+
+function mixCocktail() {
+  const key = [...selectedIngs].sort().join(',');
+  const r = COCKTAIL_RECIPES[key] || { toast:'"今夜的你，什么都配。"', desc:'配方独一无二，就像你一样。' };
+  document.getElementById('cocktail-toast-text').textContent = r.toast;
+  document.getElementById('cocktail-desc-text').textContent  = r.desc;
+  document.getElementById('cocktail-result').classList.remove('hidden');
+  playClinkSound();
+}
+
+function playClinkSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type='sine'; o.frequency.value=1580;
+    g.gain.setValueAtTime(0.2, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+1.0);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(); o.stop(ctx.currentTime+1.05);
+  } catch(e) {}
+}
+
+// ════════════════════════════════════════════════════════════════
+// 八戒
+// ════════════════════════════════════════════════════════════════
+function openBajie() {
+  document.getElementById('bajie-iframe').src = 'https://www.youtube.com/embed/SzbW0r0z_iU?autoplay=1';
+  document.getElementById('bajie-modal').classList.add('open');
+}
+function closeBajie() {
+  document.getElementById('bajie-iframe').src = '';
+  document.getElementById('bajie-modal').classList.remove('open');
+}
+
+// Close modals on backdrop click
+document.querySelectorAll('.modal-wrap').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) { closeCert(); closeBajie(); } });
+});
+</script>
+
 </body>
 </html>
