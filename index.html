@@ -87,7 +87,7 @@
 
     /* Polaroid */
     .polaroid {
-      background: #fff; padding: 8px 8px 28px;
+      background: #fff; padding: 4px 4px 4px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.5);
       cursor: pointer; transition: transform .25s, box-shadow .25s;
     }
@@ -305,7 +305,7 @@
       <h2 class="text-xl font-bold">雅心的招牌菜</h2>
     </div>
     <p class="text-stone-400 text-sm leading-relaxed">她做过的每一道菜，都是认真对待生活的证明。</p>
-    <div id="food-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-5"></div>
+    <div id="food-grid" class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory" style="-webkit-overflow-scrolling:touch;"></div>
   </div>
 </section>
 
@@ -882,7 +882,16 @@ sb.channel('st').on('postgres_changes', { event: 'INSERT', schema: 'public', tab
 // ════════════════════════════════════════════════════════════════
 // Add your food photos here once you upload them to assets/food/
 const FOOD_ITEMS = [
-  // { src: 'assets/food/dish1.jpg', name: '螺蛳粉', caption: '正宗广西味道' },
+  { src: 'assets/food/IMG_5488.jpg' },
+  { src: 'assets/food/IMG_6677.jpg' },
+  { src: 'assets/food/IMG_6045.jpg' },
+  { src: 'assets/food/IMG_5688.jpg' },
+  { src: 'assets/food/IMG_5723.jpg' },
+  { src: 'assets/food/IMG_5837.jpg' },
+  { src: 'assets/food/IMG_6173.jpg' },
+  { src: 'assets/food/IMG_6499.jpg' },
+  { src: 'assets/food/IMG_6691.jpg' },
+  { src: 'assets/food/IMG_6753.jpg' },
 ];
 
 (function renderFood() {
@@ -895,13 +904,11 @@ const FOOD_ITEMS = [
     return;
   }
   grid.innerHTML = FOOD_ITEMS.map((item, i) => {
-    const rot = (i % 2 === 0 ? -1.5 : 1.2) + (i % 3 === 0 ? 0.5 : 0);
-    return `<div class="polaroid" style="transform:rotate(${rot}deg)" onclick="openLightbox('${item.src}')">
-      <img src="${item.src}" alt="${item.name}"
+    return `<div class="polaroid shrink-0 snap-center" style="width:200px;" onclick="openLightbox('${item.src}')">
+      <img src="${item.src}" alt="${item.name || ''}"
         class="w-full aspect-square object-cover bg-stone-200"
         onerror="this.closest('.polaroid').remove()">
-      <div class="mt-2 text-center font-hw text-stone-700 text-sm">${item.name || ''}</div>
-      ${item.caption ? `<div class="text-center text-stone-400 text-[10px] mt-0.5">${item.caption}</div>` : ''}
+      ${item.name ? `<div class="mt-1 text-center font-hw text-stone-700 text-sm">${item.name}</div>` : ''}
     </div>`;
   }).join('');
 })();
