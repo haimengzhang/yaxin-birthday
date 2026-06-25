@@ -1500,13 +1500,8 @@ function playCakeChime() {
       playCakeChime();
       msg.textContent = '🎂 雅心，生日快乐！';
       msg.style.opacity = '1';
-      // Fade out song
-      if (_bdaySong) {
-        const fadeOut = setInterval(() => {
-          if (_bdaySong.volume > 0.05) _bdaySong.volume -= 0.05;
-          else { _bdaySong.pause(); clearInterval(fadeOut); }
-        }, 100);
-      }
+      // Stop song
+      if (_bdaySong) { _bdaySong.pause(); _bdaySong.currentTime = 0; }
       // Relight after 5s and reset
       setTimeout(() => {
         candlesLit = true;
