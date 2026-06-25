@@ -200,6 +200,7 @@
     </div>
     <p class="text-stone-400 text-sm">点击蛋糕，吹灭蜡烛 ✨</p>
     <div id="cake-3d" class="cursor-pointer rounded-2xl overflow-hidden w-full" style="height:420px;"></div>
+    <p id="cake-msg" class="text-center text-gold-300 text-sm font-bold min-h-6 transition-opacity duration-500">点击蛋糕，为雅心唱首生日歌 🎵</p>
   </div>
 </section>
 
@@ -1415,22 +1416,52 @@ function playCakeChime() {
     }
   }
 
-  // Click handler
+  // Click handler - 3 stages
+  let cakeStage = 0; // 0=ready, 1=song playing, 2=wish prompt
+  let _bdaySong = null;
+
   container.addEventListener('click', () => {
-    if (candlesLit) {
+    const msg = document.getElementById('cake-msg');
+
+    if (cakeStage === 0) {
+      // Stage 1: Play birthday song
+      _bdaySong = new Audio('assets/birthday-song.mp3');
+      _bdaySong.volume = 0.7;
+      _bdaySong.play().catch(() => {});
+      msg.textContent = '🎵 生日歌播放中……';
+      msg.style.opacity = '1';
+      cakeStage = 1;
+      // After 5 seconds, prompt to make a wish
+      setTimeout(() => {
+        if (cakeStage === 1) {
+          msg.textContent = '🕯️ 许个愿吧，再点击蛋糕吹灭蜡烛';
+          cakeStage = 2;
+        }
+      }, 5000);
+
+    } else if (cakeStage === 2) {
+      // Stage 3: Blow out candles
       candlesLit = false;
       flames.forEach(f => { f.visible = false; });
       pointLight.intensity = 0;
       spawnParticles();
-      showToast('🎂 许个愿吧，雅心！生日快乐！');
-      playCakeChime();
+      msg.textContent = '🎂 雅心，生日快乐！';
+      msg.style.opacity = '1';
+      // Fade out song
+      if (_bdaySong) {
+        const fadeOut = setInterval(() => {
+          if (_bdaySong.volume > 0.05) _bdaySong.volume -= 0.05;
+          else { _bdaySong.pause(); clearInterval(fadeOut); }
+        }, 100);
+      }
+      // Relight after 5s and reset
       setTimeout(() => {
         candlesLit = true;
         flames.forEach(f => { f.visible = true; });
         pointLight.intensity = 1;
-      }, 4000);
-    } else {
-      spawnParticles();
+        msg.textContent = '点击蛋糕，再来一次 🎵';
+        cakeStage = 0;
+      }, 5000);
     }
   });
 
